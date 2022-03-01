@@ -82,8 +82,8 @@ function consoleGame(){
                 break;
 
         } else {
-            console.log(guess.toUpperCase());
-            alert(result);
+            console.log();
+            alert(guess.toUpperCase() + "\n" + result);
         }
     }
 }
