@@ -74,19 +74,17 @@ function consoleGame(){
         let result = checkWord(guess, generatedWord);
 
         if (!isWordValid(guess)){
-            
-            console.log("Enter a valid word!");
+            alert("Enter a valid word!");
             guesses--;
-            break;
-        }
+            
+        } else if (result === "win") {
+                alert("Well done! Guesses: " + guesses);
+                break;
 
-        if (result === "win") {
-            console.log("Well done! Guesses: " + guesses);
-            break;
+        } else {
+            console.log(guess.toUpperCase());
+            alert(result);
         }
-
-        console.log(guess.toUpperCase());
-        console.log(result);
     }
 }
 
