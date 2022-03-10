@@ -49,50 +49,21 @@ function checkWord(guessedWord, generatedWord){
         }
     }
     
-    result = result + "\n " + yellows;
-
-    return result.toUpperCase();
+    return result;
 }
 
-function game(){
-
-    let generatedWord = generateWord()
-    let guesses = 0;
-
-    console.log(generatedWord);
-
-    while (guesses < 6){
-
-        guesses++; 
-
-        let guess = prompt("Enter a valid 5 letter word: ");
-
-        let result = checkWord(guess, generatedWord);
-
-        if (!isWordValid(guess)){
-            alert("Enter a valid word!");
-            guesses--;
-            
-        } else if (result === "win") {
-                alert("Well done! Guesses: " + guesses);
-                break;
-
-        } else {
-            console.log();
-            alert(guess.toUpperCase() + "\n" + result);
-        }
-    }
-}
 
 // UI //
 
 const gameBoard = document.getElementById('gameBoard');
 const rows = document.getElementsByClassName("row");
+const squares = document.getElementsByClassName("square");
 
 function generateRows() {
     for (let i = 0; i < 5; i++) {
         const row = document.createElement('div');
         row.classList.add('row');
+        row.classList.add(`${i}`);
         gameBoard.appendChild(row);
     }
 }
@@ -102,12 +73,93 @@ function generateColumns() {
         for (let i = 0; i < 5; i++) {
             const square = document.createElement('div');
             square.classList.add('square');
-
+            square.classList.add(n);
+            
+            
             rows[i].appendChild(square);
         }
     }
 }
 
-generateRows();
-generateColumns();
-// game();
+let guesses;
+let generatedWord
+
+function newGame(){
+
+    generateRows();
+    generateColumns();
+
+    generatedWord = generateWord()
+    guesses = 0;
+
+    console.log(generatedWord);
+}
+
+const infoText = document.getElementById('infoText');
+
+infoText.addEventListener('click', () => {
+    
+    console.log("test");
+    
+    game("test");
+})
+
+function game(guess) {
+
+    if (guesses > 5) return;
+
+    let result = checkWord(guess, generatedWord);
+    
+    console.log(result);
+
+    // for each letter in guess
+    // put letter i in cell i
+    // if result[i] is 2
+    //      tileColor=green   
+    // if result[i] is 1
+    //      tileColor=yellow
+    // if result[i] is 0
+    //      tileColor=darkgrey
+    
+    let guessArray = guess.split('');
+    console.log(guessArray);
+
+    
+    for (let i = 0; i < 5; i++) {
+
+        squares[i].textContent = guessArray[i];
+
+        if (result[i] === "2") {
+            squares[i].style.backgroundColor = 'green';
+        }
+        if (result[i] === "1") {
+            squares[i].style.backgroundColor = 'gold';
+        }
+        if (result[i] === "0") {
+            squares[i].style.backgroundColor = 'grey';
+        }
+        
+      }
+
+    
+    for (let i = 0; i < 6; i++) {
+        currentRow[i].textContent = guessArray[i];
+    }
+
+    if (!isWordValid(guess)) {
+        infoText.textContent = "Enter a valid word!";
+        guesses--;
+        
+    } else if (result === "win") {
+        infoText.textContent = "Well done! Guesses: " + guesses;
+
+    } else {
+        console.log();
+        infoText.textContent = guess.toUpperCase();
+    }
+
+    guesses++;
+}
+
+newGame();
+game("adieu");
