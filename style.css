@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Arial, Helvetica, sans-serif;
     
     color: white;
 }
@@ -71,8 +71,6 @@ header {
     flex-direction: column;
 
     margin: 1em;
-
-    gap: 10px;
 }
 
 .row {
@@ -90,4 +88,23 @@ header {
 
     padding: 1em;
     margin: 0.2em;
+
+    font-weight: bold;
+    font-size: large;
+    text-align: center;
+
+    text-transform: uppercase;
+}
+
+/* temp textbox */
+.wordInput {
+    background-color: grey;
+    border-style: none;
+    padding: 1em;
+
+    text-transform: uppercase;
+}
+
+.submitButton {
+    padding: 0.9em;
 }
