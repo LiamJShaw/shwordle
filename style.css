@@ -46,10 +46,10 @@ header {
 
     min-width: 100%;
 
-    padding: 0px 16px;
+    padding: 0.25em 1em;
     margin: 1em 2em 2em 2em;
 
-    border-bottom: 1px solid grey;
+    border-bottom: 0.1em solid grey;
 }
 
 .gameBoardContainer {
@@ -95,6 +95,8 @@ header {
 
     text-transform: uppercase;
 }
+
+
 
 /* temp textbox */
 .wordInput {
