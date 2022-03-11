@@ -10678,8 +10678,6 @@ function setCharAt(str, index, char) {
 
 function checkWord(guessedWord, generatedWord){
 
-    if (guessedWord === generatedWord) return "22222";
-
     let result = "00000";
     let tmpGeneratedWord = generatedWord;
 
@@ -10707,6 +10705,34 @@ function checkWord(guessedWord, generatedWord){
     return result;
 }
 
+function encryptWord(word) {
+    
+    const lowerCaseAlphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m',
+    'n','o','p','q','r','s','t','u','v','w','x','y','z'];
+
+    const upperCaseAlphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
+        'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+
+    let encrypted = "";;
+
+    for (let char of string) {
+        if (lowerCaseAlphabet.includes(char)) {
+            result += lowerCaseAlphabet[ (lowerCaseAlphabet.indexOf(char) + key) % 26 ];
+        } else if (upperCaseAlphabet.includes(char)) {
+            result += upperCaseAlphabet[ (upperCaseAlphabet.indexOf(char) + key) % 26 ];
+        } else {
+            result += char;
+        }
+    }
+
+    return encrypted;
+
+}
+
+function decryptWord() {
+    
+
+}
 
 // UI //
 
@@ -10771,11 +10797,6 @@ function game(guess) {
     
     let result = checkWord(guess, generatedWord);
     
-    if (result === "11111") {
-        infoText.textContent = "Well done! Guesses: " + guesses;
-        return;
-    } 
-    
     for (let i = 0; i < 5; i++) {
 
         currentRow[i].textContent = guess[i];
@@ -10788,9 +10809,13 @@ function game(guess) {
             currentRow[i].style.backgroundColor = '#c9b458';
         }
         if (result[i] === "0") {
-            currentRow[i].style.backgroundColor = 'grey';
+            currentRow[i].style.backgroundColor = '#86888a';
         }        
       }
+
+    if (result === "22222") {
+        infoText.textContent = "Well done!"
+    } 
 
     guesses++;
 }
