@@ -10771,7 +10771,7 @@ function game(guess) {
     
     let result = checkWord(guess, generatedWord);
     
-    if (result === "win") {
+    if (result === "11111") {
         infoText.textContent = "Well done! Guesses: " + guesses;
         return;
     } 
@@ -10782,10 +10782,10 @@ function game(guess) {
         currentRow[i].style.borderStyle = "none";
 
         if (result[i] === "2") {
-            currentRow[i].style.backgroundColor = 'green';
+            currentRow[i].style.backgroundColor = '#6aaa64';
         }
         if (result[i] === "1") {
-            currentRow[i].style.backgroundColor = 'gold';
+            currentRow[i].style.backgroundColor = '#c9b458';
         }
         if (result[i] === "0") {
             currentRow[i].style.backgroundColor = 'grey';
