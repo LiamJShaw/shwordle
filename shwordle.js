@@ -10705,33 +10705,59 @@ function checkWord(guessedWord, generatedWord){
     return result;
 }
 
-function encryptWord(word) {
-    
-    const lowerCaseAlphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m',
-    'n','o','p','q','r','s','t','u','v','w','x','y','z'];
+function checkURL() { 
 
-    const upperCaseAlphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M',
-        'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+    const urlParameter = window.location.hash;
 
-    let encrypted = "";;
-
-    for (let char of string) {
-        if (lowerCaseAlphabet.includes(char)) {
-            result += lowerCaseAlphabet[ (lowerCaseAlphabet.indexOf(char) + key) % 26 ];
-        } else if (upperCaseAlphabet.includes(char)) {
-            result += upperCaseAlphabet[ (upperCaseAlphabet.indexOf(char) + key) % 26 ];
-        } else {
-            result += char;
-        }
+    if (urlParameter === "") {
+        return false;
     }
 
-    return encrypted;
+    // Remove hash character
+    return urlParameter.substring(1, 6);
 
 }
 
-function decryptWord() {
+function encryptWord(word) {
     
+    const alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m',
+    'n','o','p','q','r','s','t','u','v','w','x','y','z'];
 
+    let encrypted = "";;
+    let scrambledWord = "";
+
+    scrambledWord += word[4]; 
+    scrambledWord += word[0]; 
+    scrambledWord += word[3];
+    scrambledWord += word[1];
+    scrambledWord += word[2];
+    
+    for (let char of scrambledWord) {
+        encrypted += alphabet[ (alphabet.indexOf(char) + 13) % 26 ];
+    }
+
+    return encrypted;
+}
+
+function decryptWord(word) {
+    
+    const alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m',
+    'n','o','p','q','r','s','t','u','v','w','x','y','z'];
+
+    let decrypted = "";;
+    let unscrambledWord = "";
+
+    unscrambledWord += word[1];
+    unscrambledWord += word[3];
+    unscrambledWord += word[4];
+    unscrambledWord += word[2];
+    unscrambledWord += word[0];
+
+    for (let char of unscrambledWord) {
+        decrypted += alphabet[ (alphabet.indexOf(char) + 13) % 26 ];
+    }
+
+    return decrypted;
 }
 
 // UI //
@@ -10765,10 +10791,17 @@ let generatedWord
 
 function newGame(){
 
+    let urlParameter = checkURL();
+
+    if (!urlParameter) {
+        generatedWord = generateWord()
+    } else {
+        generatedWord = decryptWord(urlParameter);
+    }
+
     generateRows();
     generateColumns();
 
-    generatedWord = generateWord()
     guesses = 0;
 
     console.log(generatedWord);
