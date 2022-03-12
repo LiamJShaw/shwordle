@@ -13077,26 +13077,32 @@ function decryptWord(word) {
 }
 
 function shareResult() {
+
     // Convert boardArray to emojis
     let gameBoardExport = "";
 
-    for (let i = 0; i < 5; i++) {
-        for (let n = 0; n < 5; n++) {
-            gameBoardExport += gameBoardArray[i][n];
-        }
+    gameBoardArray.forEach(row => {
+        row = row.replaceAll("0", "⬛")
+        row = row.replaceAll("1", "🟨")
+        row = row.replaceAll("2", "🟩")
 
+        gameBoardExport += row;
         gameBoardExport += '\n';
-    }
+    })
 
     console.log(gameBoardExport);
 
     // Generate share link
+    let shareLink = "https://liamjshaw.github.io/shwordle/#";
 
-    // Open up share window / copy to clipboard
+    shareLink += encryptWord(generatedWord);
 
-    // 🟩
-    // 🟨
-    // ⬛
+    console.log(shareLink);
+
+    // Open up share window
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(shareLink);
 
 }
 
@@ -13189,11 +13195,12 @@ function game(guess) {
 
     if (result === "22222") {
         infoText.textContent = "Well done!"
+        shareResult(); // temp. This will go in the modal when it's done.
     } 
 
     guesses++;
 
-    if (guesses === 6 && result != "22222") {
+    if (guesses === 6 && result != "22222") { 
         infoText.textContent = "Unlucky! Word: " + generatedWord;
     }
 }
