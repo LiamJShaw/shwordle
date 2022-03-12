@@ -12980,6 +12980,8 @@ function generateWord() {
 }
 
 function isWordValid(word) {
+    // For some reason, the official word lists I used have a 
+    // problem where the guessable words aren't in the allowed list
     if (allowedListArray.includes(word.toLowerCase())) return true;
     if (wordListArray.includes(word.toLowerCase())) return true;
 
@@ -13076,6 +13078,15 @@ function decryptWord(word) {
     return decrypted;
 }
 
+const shareButton = document.querySelector('.shareButton');
+
+shareButton.addEventListener('click', () => {
+    console.log("Share clicked");
+
+    // Open share dialog
+    navigator.share(shareResult());
+})
+
 function shareResult() {
 
     // Convert boardArray to emojis
@@ -13099,12 +13110,13 @@ function shareResult() {
 
     console.log(shareLink);
 
-    // Open up share window
-    
-    // Copy to clipboard
-    navigator.clipboard.writeText(shareLink);
+    return shareLink;
 
+    // Copy to clipboard
+    // navigator.clipboard.writeText(shareLink);
 }
+
+
 
 // UI //
 
@@ -13154,14 +13166,16 @@ function newGame(){
 }
 
 const infoText = document.querySelector('.infoText');
-const submitButton = document.querySelector('.submitButton');
 const wordInput = document.querySelector('.wordInput');
+const submitButton = document.querySelector('.submitButton');
 
 submitButton.addEventListener('click', () => {
     
     let guessedWord = wordInput.value;
     game(guessedWord.toLowerCase());
 })
+
+const modal = document.querySelector(".modal");
 
 function game(guess) {
 
@@ -13195,13 +13209,14 @@ function game(guess) {
 
     if (result === "22222") {
         infoText.textContent = "Well done!"
-        shareResult(); // temp. This will go in the modal when it's done.
+        modal.style.visibility = "visible";
     } 
 
     guesses++;
 
     if (guesses === 6 && result != "22222") { 
         infoText.textContent = "Unlucky! Word: " + generatedWord;
+        modal.style.visibility = "visible";
     }
 }
 
