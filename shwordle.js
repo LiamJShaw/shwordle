@@ -13078,13 +13078,27 @@ function decryptWord(word) {
     return decrypted;
 }
 
+const modalMessage = document.querySelector(".message");
 const shareButton = document.querySelector('.shareButton');
 
 shareButton.addEventListener('click', () => {
     console.log("Share clicked");
 
-    // Open share dialog
-    navigator.share(shareResult());
+    let resultString = shareResult();
+
+    if (navigator.share) {
+        navigator.share(resultString)
+            .then(() => console.log('Successful share'))
+            .catch((error) => console.log('Error sharing', error));
+    } else {
+        console.log("Web Share API is not supported in your browser.")
+        
+        // Copy to clipboard
+
+        console.log(resultString);
+        navigator.clipboard.writeText(resultString);
+        modalMessage.textContent = "Results and share link copied to clipboard"
+    }
 })
 
 function shareResult() {
@@ -13101,19 +13115,22 @@ function shareResult() {
         gameBoardExport += '\n';
     })
 
-    console.log(gameBoardExport);
-
     // Generate share link
     let shareLink = "https://liamjshaw.github.io/shwordle/#";
 
     shareLink += encryptWord(generatedWord);
 
-    console.log(shareLink);
 
-    return shareLink;
+    // Compose share string
+    let shareString = "Shwordle | "
+    shareString += guesses 
+    shareString += "/6";
+    shareString += "\n\n";
+    shareString += gameBoardExport;
+    shareString += "\n";
+    shareString += shareLink;
 
-    // Copy to clipboard
-    // navigator.clipboard.writeText(shareLink);
+    return shareString;
 }
 
 

@@ -143,6 +143,11 @@ header {
 .modal-content > button {
     padding: 1rem 2rem;
     margin: 1rem;
+
+    border-style: none;
+    border-radius: 10px;
+
+    font-size: 2rem;
 }
 
 
