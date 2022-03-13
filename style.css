@@ -10,7 +10,7 @@
 
 body {
     
-    height: 100vh;
+    height: 80vh;
 
     display: flex;
     flex-direction: column;
@@ -175,7 +175,7 @@ header {
 /* Keyboard */
 
 .keyboard {
-    margin: 2rem;
+    margin: 0.3rem;
 
     display: grid;
     grid-template-columns: repeat(20, minmax(auto, 1.25rem));
@@ -210,16 +210,4 @@ header {
 
 .spacer {
     border: none;
-}
-
-.key.wrong {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.green {
-    background-color: #6aaa64;
-}
-
-.yellow {
-    background-color: #c9b458;
 }
