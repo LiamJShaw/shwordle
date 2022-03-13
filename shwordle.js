@@ -13087,19 +13087,10 @@ shareButton.addEventListener('click', () => {
     let resultString = shareResult();
 
     console.log(resultString);
-
-    // This never seems to work. Why?
-    if (navigator.share) {
-        navigator.share(resultString)
-            .then(() => console.log('Successful share'))
-            .catch((error) => console.log('Error sharing', error));
-    } else {
-        console.log("Web Share API is not supported in your browser.")
         
-        // Copy to clipboard as fallback
-        navigator.clipboard.writeText(resultString);
-        modalMessage.textContent = "Copied to clipboard"
-    }
+    // Copy to clipboard as fallback
+    navigator.clipboard.writeText(resultString);
+    modalMessage.textContent = "Copied to clipboard"
 })
 
 function shareResult() {
