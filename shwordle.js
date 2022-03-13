@@ -13086,6 +13086,9 @@ shareButton.addEventListener('click', () => {
 
     let resultString = shareResult();
 
+    console.log(resultString);
+
+    // This never seems to work. Why?
     if (navigator.share) {
         navigator.share(resultString)
             .then(() => console.log('Successful share'))
@@ -13093,11 +13096,9 @@ shareButton.addEventListener('click', () => {
     } else {
         console.log("Web Share API is not supported in your browser.")
         
-        // Copy to clipboard
-
-        console.log(resultString);
+        // Copy to clipboard as fallback
         navigator.clipboard.writeText(resultString);
-        modalMessage.textContent = "Results and share link copied to clipboard"
+        modalMessage.textContent = "Copied to clipboard"
     }
 })
 
@@ -13193,6 +13194,8 @@ submitButton.addEventListener('click', () => {
 })
 
 const modal = document.querySelector(".modal");
+const resultMessage = document.querySelector(".resultMessage");
+const showWord = document.querySelector(".word");
 
 function game(guess) {
 
@@ -13204,6 +13207,8 @@ function game(guess) {
         infoText.textContent = "Enter a valid word!";
         return;        
     }
+
+    guesses++;
     
     let result = checkWord(guess, generatedWord);
     gameBoardArray.push(result); // For exporting as emojis later
@@ -13225,14 +13230,34 @@ function game(guess) {
       }
 
     if (result === "22222") {
-        infoText.textContent = "Well done!"
+        
+        switch(guesses) {
+            case 1: 
+                resultMessage.textContent = "Genius!";
+                break;
+            case 2: 
+                resultMessage.textContent = "Magnificent!";
+                break;
+            case 3: 
+                resultMessage.textContent = "Impressive!";
+                break;
+            case 4: 
+                resultMessage.textContent = "Splendid!";
+                break;
+            case 5: 
+                resultMessage.textContent = "Great!";
+                break;
+            case 5: 
+                resultMessage.textContent = "Phew!";
+                break;
+        }
+        
         modal.style.visibility = "visible";
     } 
 
-    guesses++;
-
     if (guesses === 6 && result != "22222") { 
-        infoText.textContent = "Unlucky! Word: " + generatedWord;
+        resultMessage.textContent = "Unlucky!";
+        showWord.textContent = "Word: " + generatedWord.toUpperCase()
         modal.style.visibility = "visible";
     }
 }
