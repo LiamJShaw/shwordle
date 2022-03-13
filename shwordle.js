@@ -13175,14 +13175,14 @@ function newGame(){
 }
 
 const infoText = document.querySelector('.infoText');
-const wordInput = document.querySelector('.wordInput');
-const submitButton = document.querySelector('.submitButton');
+// const wordInput = document.querySelector('.wordInput');
+// const submitButton = document.querySelector('.submitButton');
 
-submitButton.addEventListener('click', () => {
+// submitButton.addEventListener('click', () => {
     
-    let guessedWord = wordInput.value;
-    game(guessedWord.toLowerCase());
-})
+//     let guessedWord = wordInput.value;
+//     game(guessedWord.toLowerCase());
+// })
 
 const modal = document.querySelector(".modal");
 const resultMessage = document.querySelector(".resultMessage");
