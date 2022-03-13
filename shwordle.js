@@ -13153,8 +13153,23 @@ function generateColumns() {
     }
 }
 
-let guesses;
-let generatedWord
+function updateDisplay() {
+
+    let currentRow = rows[guesses].childNodes;
+
+    for (let i = 0; i < 5; i++) {
+        currentRow[i].textContent = "";
+    }
+    
+    for (let i = 0; i < guess.length; i++) {
+        currentRow[i].textContent = guess[i];
+    }
+
+}
+
+let guess = "";
+let guesses = 0;
+let generatedWord;
 
 function newGame(){
 
@@ -13174,15 +13189,40 @@ function newGame(){
     console.log(generatedWord);
 }
 
-const infoText = document.querySelector('.infoText');
-// const wordInput = document.querySelector('.wordInput');
-// const submitButton = document.querySelector('.submitButton');
+const keyboard = document.querySelector(".keyboard");
+keyboard.addEventListener("click", handleMouseClick);
 
-// submitButton.addEventListener('click', () => {
-    
-//     let guessedWord = wordInput.value;
-//     game(guessedWord.toLowerCase());
-// })
+function handleMouseClick(e) {
+    if (e.target.matches("[data-key]")) {
+        pressKey(e.target.dataset.key);
+        return;
+    }
+
+    if (e.target.matches("[data-enter]")) {
+        //submit guess
+        game(guess);
+        guess = "";
+    }
+
+    if (e.target.matches("[data-delete]")) {
+        // backspace
+        deleteChar() 
+    }
+}
+
+function pressKey(key) {
+
+    guess += key;
+    updateDisplay();
+    console.log(guess);
+}
+
+function deleteChar() {
+    guess = guess.slice(0, -1);
+    updateDisplay();
+}
+
+const infoText = document.querySelector('.infoText');
 
 const modal = document.querySelector(".modal");
 const resultMessage = document.querySelector(".resultMessage");
@@ -13206,17 +13246,23 @@ function game(guess) {
     
     for (let i = 0; i < 5; i++) {
 
+        const key = document.querySelector(`[data-key='${guess[i]}']`);
+        console.log(key);
+
         currentRow[i].textContent = guess[i];
         currentRow[i].style.borderStyle = "none";
 
         if (result[i] === "2") {
             currentRow[i].style.backgroundColor = '#6aaa64';
-        }
+            key.style.backgroundColor = '#6aaa64';
+;        }
         if (result[i] === "1") {
             currentRow[i].style.backgroundColor = '#c9b458';
+            key.style.backgroundColor = '#c9b458';
         }
         if (result[i] === "0") {
             currentRow[i].style.backgroundColor = '#86888a';
+            key.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
         }        
       }
 
@@ -13254,3 +13300,15 @@ function game(guess) {
 }
 
 newGame();
+
+
+
+
+
+// Evil Shwordle
+
+// Map all the words that don't include any letters from guess
+// if no words, map any that only have one letter
+// keep going until the 6th guess where they either:
+//      Guess the word that was just generated
+//      They get it wrong and you just display the result as normal

@@ -172,9 +172,9 @@ header {
     cursor: pointer;
 }
 
+/* Keyboard */
 
-
-.keyboardContainer {
+.keyboard {
     margin: 2rem;
 
     display: grid;
@@ -182,23 +182,44 @@ header {
     grid-auto-rows: 3rem;
     gap: 0.25rem;
     justify-content: center;
+}
 
+.key:hover {
+    opacity: 0.5;
 }
 
 .key {
     font-size: inherit;
-
-}
-
-/* temp textbox */
-.wordInput {
+    border: none;
+    border-radius: 6px;
     background-color: grey;
-    border-style: none;
-    padding: 1em;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    text-transform: uppercase;
+    cursor: pointer;
+
+    grid-column: span 2;
 }
 
-.submitButton {
-    padding: 0.9em;
+.key.large {
+    grid-column: span 3;
+    fill: white; /* for the backspace SVG */
+}
+
+.spacer {
+    border: none;
+}
+
+.key.wrong {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.green {
+    background-color: #6aaa64;
+}
+
+.yellow {
+    background-color: #c9b458;
 }
