@@ -13082,13 +13082,12 @@ const modalMessage = document.querySelector(".message");
 const shareButton = document.querySelector('.shareButton');
 
 shareButton.addEventListener('click', () => {
-    console.log("Share clicked");
 
     let resultString = shareResult();
 
     console.log(resultString);
         
-    // Copy to clipboard as fallback
+    // Copy to clipboard
     navigator.clipboard.writeText(resultString);
     modalMessage.textContent = "Copied to clipboard"
 })
@@ -13126,15 +13125,14 @@ function shareResult() {
 }
 
 
-
 // UI //
 
 const gameBoard = document.getElementById('gameBoard');
 const rows = document.getElementsByClassName("row");
 const squares = document.getElementsByClassName("square");
 
-function generateRows() {
-    for (let i = 0; i < 6; i++) {
+function generateRows(amount) {
+    for (let i = 0; i < amount; i++) {
         const row = document.createElement('div');
         row.classList.add('row');
         row.classList.add(`${i}`);
@@ -13142,8 +13140,8 @@ function generateRows() {
     }
 }
 
-function generateColumns() {
-    for (let i = 0; i < 6; i++) {
+function generateColumns(amount) {
+    for (let i = 0; i < amount; i++) {
         for (let n = 0; n < 5; n++) {
             const square = document.createElement('div');
             square.classList.add('square');
@@ -13173,6 +13171,9 @@ let generatedWord;
 
 function newGame(){
 
+    gameBoardArray = []
+    clearBoard();
+
     let urlParameter = checkURL();
 
     if (!urlParameter) {
@@ -13181,12 +13182,17 @@ function newGame(){
         generatedWord = decryptWord(urlParameter);
     }
 
-    generateRows();
-    generateColumns();
+    generateRows(6);
+    generateColumns(6);
 
     guesses = 0;
 
-    console.log(generatedWord);
+    console.log("Answer: " + generatedWord);
+}
+
+function clearBoard() {
+    // Apparently faster than setting innerHTML to ""
+    gameBoard.textContent = ''
 }
 
 const keyboard = document.querySelector(".keyboard");
@@ -13212,9 +13218,10 @@ function handleMouseClick(e) {
 
 function pressKey(key) {
 
-    guess += key;
-    updateDisplay();
-    console.log(guess);
+    if (guess.length < 5) {
+        guess += key;
+        updateDisplay();
+    }
 }
 
 function deleteChar() {
@@ -13222,7 +13229,6 @@ function deleteChar() {
     updateDisplay();
 }
 
-const infoText = document.querySelector('.infoText');
 
 const modal = document.querySelector(".modal");
 const resultMessage = document.querySelector(".resultMessage");
@@ -13235,7 +13241,7 @@ function game(guess) {
     let currentRow = rows[guesses].childNodes
 
     if (!isWordValid(guess)) {
-        infoText.textContent = "Enter a valid word!";
+        // Tell user word is invalid
         return;        
     }
 
@@ -13247,7 +13253,6 @@ function game(guess) {
     for (let i = 0; i < 5; i++) {
 
         const key = document.querySelector(`[data-key='${guess[i]}']`);
-        console.log(key);
 
         currentRow[i].textContent = guess[i];
         currentRow[i].style.borderStyle = "none";
@@ -13297,6 +13302,22 @@ function game(guess) {
         showWord.textContent = "Word: " + generatedWord.toUpperCase()
         modal.style.visibility = "visible";
     }
+}
+
+const newGameButton = document.querySelector(".newWord");
+
+newGameButton.addEventListener("click", () => {modal.style.visibility = "visible";
+    modal.style.visibility = "hidden";
+    resetKeyboard();
+    newGame();
+})
+
+function resetKeyboard() {
+    const keys = document.querySelectorAll(".key");
+
+    keys.forEach(key => {
+        key.style.backgroundColor = 'grey';
+    })
 }
 
 newGame();

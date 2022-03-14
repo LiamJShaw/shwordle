@@ -52,8 +52,16 @@ header {
     border-bottom: 0.1rem solid grey;
 }
 
+.menu-left,
+.menu-right {
+    display: flex;
+    gap: 1rem;
+}
+
 .help,
-.settings {
+.settings,
+.stats,
+.customChallenge {
     border-style: none;
 
     font-weight: 900;
@@ -104,6 +112,8 @@ header {
     text-transform: uppercase;
 }
 
+/* Modal */
+
 .modal {
     visibility: hidden;
 
@@ -138,6 +148,15 @@ header {
     border-radius: 10px;
 }
 
+.modal-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    border-bottom: 0.1rem solid grey;
+}
+
 .resultMessage {
     font-size: 2rem;
     font-weight: bold;
@@ -149,27 +168,41 @@ header {
 .word {
     font-size: 2rem;
     font-weight: bold;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
 }
 
 .message {
-    padding: 2rem;
+    padding: 1rem;
     min-height: 2rem; 
 }
 
-.modal-content > button {
+.shareButton,
+.shareCustomChallenge,
+.newWord {
 
     background-color: #696969;
 
-    padding: 1rem 2rem;
-    margin: 1rem;
+    padding: 0.5rem 1rem;
 
     border-style: none;
     border-radius: 10px;
 
-    font-size: 2rem;
- 
-    cursor: pointer;
+    font-size: 1rem;
+}
+
+.modal-bottom {
+    display: flex;
+    align-items: space-around;
+    justify-content: center;
+
+    gap: 1rem;
+
+    margin-top: 1rem;
+    
+}
+
+.new-button-container {
+    flex-basis: 100%;
 }
 
 /* Keyboard */
@@ -197,8 +230,6 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    cursor: pointer;
 
     grid-column: span 2;
 }
