@@ -36,12 +36,12 @@ body {
 button {
     background-color: #0f0f0f;
     padding: 0.2em;
-    border-style: solid;
+    border-style: none;
 }
 
 header {
     display: flex;
-    justify-content: space-between;
+    justify-content:space-between;
     align-items: center;
 
     min-width: 100%;
@@ -241,4 +241,14 @@ header {
 
 .spacer {
     border: none;
+}
+
+svg {
+    pointer-events: none;
+}
+
+.customChallengeText {
+    text-align: center;
+    margin: 1rem;
+    padding: 1rem;
 }
