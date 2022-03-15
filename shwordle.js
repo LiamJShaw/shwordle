@@ -13042,17 +13042,14 @@ function encryptWord(word) {
     'n','o','p','q','r','s','t','u','v','w','x','y','z'];
 
     let encrypted = "";;
-    let scrambledWord = "";
 
-    scrambledWord += word[4]; 
-    scrambledWord += word[0]; 
-    scrambledWord += word[3];
-    scrambledWord += word[1];
-    scrambledWord += word[2];
-    
-    for (let char of scrambledWord) {
-        encrypted += alphabet[ (alphabet.indexOf(char) + 13) % 26 ];
-    }
+    encrypted += alphabet[(alphabet.indexOf(word[4]) + 13) % 13];
+    encrypted += alphabet[(alphabet.indexOf(word[0]) + 13) % 14];
+    encrypted += alphabet[(alphabet.indexOf(word[3]) + 13) % 15];
+    encrypted += alphabet[(alphabet.indexOf(word[2]) + 13) % 16];
+    encrypted += alphabet[(alphabet.indexOf(word[1]) + 13) % 17];
+
+    console.log(encrypted);
 
     return encrypted;
 }
@@ -13063,17 +13060,12 @@ function decryptWord(word) {
     'n','o','p','q','r','s','t','u','v','w','x','y','z'];
 
     let decrypted = "";;
-    let unscrambledWord = "";
 
-    unscrambledWord += word[1];
-    unscrambledWord += word[3];
-    unscrambledWord += word[4];
-    unscrambledWord += word[2];
-    unscrambledWord += word[0];
-
-    for (let char of unscrambledWord) {
-        decrypted += alphabet[ (alphabet.indexOf(char) + 13) % 26 ];
-    }
+    decrypted += alphabet[(alphabet.indexOf(word[1]) + 13) % 13];
+    decrypted += alphabet[(alphabet.indexOf(word[3]) + 13) % 14];
+    decrypted += alphabet[(alphabet.indexOf(word[4]) + 13) % 15];
+    decrypted += alphabet[(alphabet.indexOf(word[2]) + 13) % 16];
+    decrypted += alphabet[(alphabet.indexOf(word[0]) + 13) % 17];
 
     return decrypted;
 }
