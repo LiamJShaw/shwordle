@@ -82,11 +82,13 @@ header {
     margin: 2rem;
 }
 
-.gameBoard {
+#gameBoard {
     display: flex;
     flex-direction: column;
 
     margin: 1em;
+
+    max-width: 351px;
 }
 
 .row {
