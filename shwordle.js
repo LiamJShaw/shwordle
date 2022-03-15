@@ -13171,22 +13171,27 @@ let generatedWord;
 
 function newGame(){
 
-    guess = "";
-    gameBoardArray = []
-    resetKeyboard();
-    clearBoard();
-
     // This re-adds the Enter button that submits a guess
     // due to challenge issue mode needing a different function
     enterButton.removeEventListener("click", generateLink);
     enterButton.addEventListener("click", submitGuess);
 
-    let urlParameter = checkURL();
+    guess = "";
+    gameBoardArray = []
+    resetKeyboard();
+    clearBoard();
+
+    // Clear previous chosen word
+    let urlParameter = "";
+
+    urlParameter = checkURL();
 
     if (!urlParameter) {
         generatedWord = generateWord()
     } else {
         generatedWord = decryptWord(urlParameter);
+        // Remove the urlParameter from the URL so it isn't reused
+        window.history.pushState("#" + urlParameter, "Shwordle", "/");
     }
 
     generateRows(6);
@@ -13329,6 +13334,10 @@ const newGameButton = document.querySelector(".newWord");
 newGameButton.addEventListener("click", () => {
     modal.style.visibility = "hidden";
     resetKeyboard();
+
+    // Remove the urlParameter from the URL so it isn't reused
+    window.history.pushState("#" + checkURL(), "Shwordle", "/");
+
     newGame();
 })
 
@@ -13392,7 +13401,7 @@ customChallengeButton.addEventListener("click", () => {
 
 })
 
-// I'm
+// I'm sorry. I will find a better way to do this.
 let messageToUser;
 
 function generateLink() {
