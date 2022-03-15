@@ -13041,13 +13041,13 @@ function encryptWord(word) {
     const alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m',
     'n','o','p','q','r','s','t','u','v','w','x','y','z'];
 
-    let encrypted = "";;
+    let encrypted = "";
 
-    encrypted += alphabet[(alphabet.indexOf(word[4]) + 13) % 13];
-    encrypted += alphabet[(alphabet.indexOf(word[0]) + 13) % 14];
-    encrypted += alphabet[(alphabet.indexOf(word[3]) + 13) % 15];
-    encrypted += alphabet[(alphabet.indexOf(word[2]) + 13) % 16];
-    encrypted += alphabet[(alphabet.indexOf(word[1]) + 13) % 17];
+    encrypted += alphabet[(alphabet.indexOf(word[0]) + 14) % 26];
+    encrypted += alphabet[(alphabet.indexOf(word[1]) + 15) % 26];
+    encrypted += alphabet[(alphabet.indexOf(word[2]) + 16) % 26];
+    encrypted += alphabet[(alphabet.indexOf(word[3]) + 17) % 26];
+    encrypted += alphabet[(alphabet.indexOf(word[4]) + 18) % 26];
 
     console.log(encrypted);
 
@@ -13059,13 +13059,13 @@ function decryptWord(word) {
     const alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m',
     'n','o','p','q','r','s','t','u','v','w','x','y','z'];
 
-    let decrypted = "";;
+    let decrypted = "";
 
-    decrypted += alphabet[(alphabet.indexOf(word[1]) + 13) % 13];
-    decrypted += alphabet[(alphabet.indexOf(word[3]) + 13) % 14];
-    decrypted += alphabet[(alphabet.indexOf(word[4]) + 13) % 15];
-    decrypted += alphabet[(alphabet.indexOf(word[2]) + 13) % 16];
-    decrypted += alphabet[(alphabet.indexOf(word[0]) + 13) % 17];
+    decrypted += alphabet[(alphabet.indexOf(word[0]) + 12) % 26];
+    decrypted += alphabet[(alphabet.indexOf(word[1]) + 11) % 26];
+    decrypted += alphabet[(alphabet.indexOf(word[2]) + 10) % 26];
+    decrypted += alphabet[(alphabet.indexOf(word[3]) + 9) % 26];
+    decrypted += alphabet[(alphabet.indexOf(word[4]) + 8) % 26];
 
     return decrypted;
 }
