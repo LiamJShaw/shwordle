@@ -12980,6 +12980,7 @@ function generateWord() {
 }
 
 function isWordValid(word) {
+
     // For some reason, the official word lists I used have a 
     // problem where the guessable words aren't in the allowed list
     if (allowedListArray.includes(word.toLowerCase())) return true;
@@ -13017,7 +13018,8 @@ function checkWord(guessedWord, generatedWord){
         if (tmpGeneratedWord.includes(guessedWord.charAt(i))){
             result = setCharAt(result, i, "1");
 
-            // todo: Only colour amount of yellows that are in word
+            // Only colour amount of yellows that are in word
+            tmpGeneratedWord = setCharAt(tmpGeneratedWord, tmpGeneratedWord.indexOf(guessedWord.charAt(i)), "$");
         }
     }
     
@@ -13168,10 +13170,13 @@ function newGame(){
     enterButton.removeEventListener("click", generateLink);
     enterButton.addEventListener("click", submitGuess);
 
+    // Clear everything from previous games
     guess = "";
     gameBoardArray = []
     resetKeyboard();
     clearBoard();
+    resultMessage.textContent = "";
+    showWord.textContent = ""
 
     // Clear previous chosen word
     let urlParameter = "";
@@ -13274,15 +13279,15 @@ function game(guess) {
 
         if (result[i] === "2") {
             currentRow[i].style.backgroundColor = '#6aaa64';
-            key.style.backgroundColor = '#6aaa64';
+            colourKey(key, "green");
 ;        }
         if (result[i] === "1") {
             currentRow[i].style.backgroundColor = '#c9b458';
-            key.style.backgroundColor = '#c9b458';
+            colourKey(key, "yellow");
         }
         if (result[i] === "0") {
-            currentRow[i].style.backgroundColor = '#86888a';
-            key.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+            currentRow[i].style.backgroundColor = '#86888a'; 
+            colourKey(key, "grey");
         }        
       }
 
@@ -13319,6 +13324,43 @@ function game(guess) {
     } else {
         guess = "";
     }
+}
+
+function colourKey(key, colour) {
+
+    // Green
+    if (colour === "green") {
+        key.style.backgroundColor = "rgb(106, 170, 100)"
+        return;
+    }
+
+    // Yellow
+    if (colour === "yellow") {
+
+        if (key.style.backgroundColor == "rgb(106, 170, 100)") {
+            return;
+        }
+
+        key.style.backgroundColor = "rgb(201, 180, 88)";
+        return;
+    }
+
+    // Grey
+    if (colour === "grey") {
+
+        if (key.style.backgroundColor == "rgb(106, 170, 100)") {
+            return;
+        }
+
+        if (key.style.backgroundColor == "rgb(201, 180, 88)") {
+            return;
+        }
+
+        key.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+        return;
+    }
+
+
 }
 
 const newGameButton = document.querySelector(".newWord");
