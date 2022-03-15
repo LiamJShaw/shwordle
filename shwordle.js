@@ -13191,7 +13191,7 @@ function newGame(){
     } else {
         generatedWord = decryptWord(urlParameter);
         // Remove the urlParameter from the URL so it isn't reused
-        window.history.pushState("#" + urlParameter, "Shwordle", "/");
+        window.history.pushState("#" + urlParameter, "Shwordle", "/shwordle");
     }
 
     generateRows(6);
@@ -13336,7 +13336,7 @@ newGameButton.addEventListener("click", () => {
     resetKeyboard();
 
     // Remove the urlParameter from the URL so it isn't reused
-    window.history.pushState("#" + checkURL(), "Shwordle", "/");
+    window.history.pushState("#" + checkURL(), "Shwordle", "/shwordle");
 
     newGame();
 })
