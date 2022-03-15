@@ -13171,8 +13171,15 @@ let generatedWord;
 
 function newGame(){
 
+    guess = "";
     gameBoardArray = []
+    resetKeyboard();
     clearBoard();
+
+    // This re-adds the Enter button that submits a guess
+    // due to challenge issue mode needing a different function
+    enterButton.removeEventListener("click", generateLink);
+    enterButton.addEventListener("click", submitGuess);
 
     let urlParameter = checkURL();
 
@@ -13199,15 +13206,10 @@ const keyboard = document.querySelector(".keyboard");
 keyboard.addEventListener("click", handleMouseClick);
 
 function handleMouseClick(e) {
+
     if (e.target.matches("[data-key]")) {
         pressKey(e.target.dataset.key);
         return;
-    }
-
-    if (e.target.matches("[data-enter]")) {
-        //submit guess
-        game(guess);
-        guess = "";
     }
 
     if (e.target.matches("[data-delete]")) {
@@ -13215,6 +13217,22 @@ function handleMouseClick(e) {
         deleteChar() 
     }
 }
+
+// Enter code separate from the others so it can 
+// be easily reused for issuing a challenge
+const enterButton = document.querySelector("[data-enter");
+
+// Can't remove event listener without turning my arrow function to a named one
+function submitGuess() {
+    game(guess);
+    guess = "";
+}
+
+const titleButton = document.querySelector(".title");
+
+titleButton.addEventListener("click", () => {
+    newGame();
+})
 
 function pressKey(key) {
 
@@ -13301,12 +13319,14 @@ function game(guess) {
         resultMessage.textContent = "Unlucky!";
         showWord.textContent = "Word: " + generatedWord.toUpperCase()
         modal.style.visibility = "visible";
+    } else {
+        guess = "";
     }
 }
 
 const newGameButton = document.querySelector(".newWord");
 
-newGameButton.addEventListener("click", () => {modal.style.visibility = "visible";
+newGameButton.addEventListener("click", () => {
     modal.style.visibility = "hidden";
     resetKeyboard();
     newGame();
@@ -13323,6 +13343,82 @@ function resetKeyboard() {
 newGame();
 
 
+// Custom challenge //
+
+const customChallengeButton = document.querySelector(".customChallenge");
+
+customChallengeButton.addEventListener("click", () => {
+
+    guesses = 0;
+    guess = "";
+    gameBoardArray = []
+    resetKeyboard();
+    clearBoard();
+
+    const customChallengeTitle = document.createElement("h1");
+    customChallengeTitle.classList.add('.customChallengeText');
+    customChallengeTitle.textContent = "Custom Challenge";
+    customChallengeTitle.style.textAlign = "center";
+    customChallengeTitle.style.margin = "1rem";
+    customChallengeTitle.style.padding = "1rem";
+
+    gameBoard.appendChild(customChallengeTitle);
+
+    const customChallengeText = document.createElement("h3");
+    customChallengeText.classList.add('.customChallengeText');
+    customChallengeText.textContent = "Enter a valid 5 letter word and then hit enter to copy a link to your clipboard to challenge someone to find it"
+    customChallengeText.style.textAlign = "center";
+    customChallengeText.style.margin = "1rem";
+    customChallengeText.style.padding = "1rem";
+
+    gameBoard.appendChild(customChallengeText);
+
+    generateRows(1);
+    generateColumns(1);
+
+    messageToUser = document.createElement("h4");
+    messageToUser.classList.add('.customChallengeText');
+    messageToUser.style.textAlign = "center";
+    messageToUser.style.margin = "1rem";
+    messageToUser.style.padding = "1rem";
+
+    gameBoard.appendChild(messageToUser);
+
+    // Replace Enter event listener with one specific to this
+    console.log(enterButton);
+    enterButton.removeEventListener("click", submitGuess);
+    console.log(enterButton);
+    enterButton.addEventListener("click", generateLink);
+
+})
+
+// I'm
+let messageToUser;
+
+function generateLink() {
+        
+    if (isWordValid(guess)) {
+        let currentRow = rows[guesses].childNodes;
+
+        for (let i = 0; i < 5; i++) {
+            currentRow[i].style.backgroundColor = '#6aaa64';
+            currentRow[i].style.borderStyle = "none";
+        }
+
+        // Generate share link
+        let shareLink = "https://liamjshaw.github.io/shwordle/#";
+        shareLink += encryptWord(guess);
+
+        // Copy share link to keyboard
+        navigator.clipboard.writeText(shareLink);
+        modalMessage.textContent = "Copied to clipboard"
+
+        messageToUser.textContent = "Share link copied to clipboard"
+        const timeout = setTimeout(newGame, 3000);
+    } else {
+        messageToUser.textContent = "Enter a valid word!";
+    }
+}
 
 
 
