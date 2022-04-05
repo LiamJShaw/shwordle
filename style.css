@@ -234,7 +234,7 @@ header {
 }
 
 .key:focus {
-    outline: none;
+    outline: 0;
     box-shadow: none;
   }
   
@@ -250,6 +250,8 @@ header {
     justify-content: center;
 
     grid-column: span 2;
+
+    user-select: none;
 }
 
 .key.large {
