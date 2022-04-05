@@ -13102,7 +13102,7 @@ function shareResult() {
 
     // Generate share link
     // let shareLink = "https://liamjshaw.github.io/shwordle/#";
-    let shareLink = `${window.location}/#`;
+    let shareLink = `${window.location}#`;
 
     shareLink += encryptWord(generatedWord);
 
@@ -13256,6 +13256,12 @@ const titleButton = document.querySelector(".title");
 
 titleButton.addEventListener("click", () => {
     newGame();
+})
+
+gameBoard.addEventListener("click", () => {
+    const random = Math.floor(Math.random() * (wordListArray.length-1));    
+    guess = allowedListArray[random];
+    submitGuess();
 })
 
 function pressKey(key) {
