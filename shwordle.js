@@ -13397,7 +13397,7 @@ newGameButton.addEventListener("click", () => {
     resetKeyboard();
 
     // Remove the urlParameter from the URL so it isn't reused
-    window.history.pushState("#" + checkURL(), "Shwordle", "/shwordle");
+    window.history.pushState("#" + checkURL(), "Shwordle", "/shwordle/");
 
     newGame();
 
