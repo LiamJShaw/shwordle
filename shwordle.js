@@ -13259,7 +13259,7 @@ titleButton.addEventListener("click", () => {
 })
 
 gameBoard.addEventListener("click", () => {
-    const random = Math.floor(Math.random() * (wordListArray.length-1));    
+    const random = Math.floor(Math.random() * (allowedListArray.length-1));    
     guess = allowedListArray[random];
     submitGuess();
 })
