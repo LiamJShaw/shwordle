@@ -13101,7 +13101,8 @@ function shareResult() {
     })
 
     // Generate share link
-    let shareLink = "https://liamjshaw.github.io/shwordle/#";
+    // let shareLink = "https://liamjshaw.github.io/shwordle/#";
+    let shareLink = `${window.location}/#`;
 
     shareLink += encryptWord(generatedWord);
 
@@ -13204,6 +13205,28 @@ function clearBoard() {
     gameBoard.textContent = ''
 }
 
+// Keyboard input
+document.addEventListener('keydown', (event) => {
+    let key = event.key;
+    let allowedChars = ['a', 'b', 'c', 'd', 'e', 'f', 'g',
+                        'h', 'i', 'j', 'k', 'l', 'm', 'n',
+                        'o', 'p', 'q', 'r', 's', 't', 'u',
+                        'v', 'w', 'x', 'y', 'z'];
+    
+    if (allowedChars.includes(key.toLowerCase())) {
+        pressKey(key);
+    }
+
+    if (key === "Enter") {
+        submitGuess()
+    }
+
+    if (key === "Backspace") {
+        deleteChar(); 
+    }
+    
+})
+
 const keyboard = document.querySelector(".keyboard");
 keyboard.addEventListener("click", handleMouseClick);
 
@@ -13211,12 +13234,11 @@ function handleMouseClick(e) {
 
     if (e.target.matches("[data-key]")) {
         pressKey(e.target.dataset.key);
-        return;
     }
 
     if (e.target.matches("[data-delete]")) {
         // backspace
-        deleteChar() 
+        deleteChar(); 
     }
 }
 
@@ -13329,6 +13351,7 @@ function game(guess) {
 function colourKey(key, colour) {
 
     // Green
+
     if (colour === "green") {
         key.style.backgroundColor = "rgb(106, 170, 100)"
         return;
@@ -13359,8 +13382,6 @@ function colourKey(key, colour) {
         key.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
         return;
     }
-
-
 }
 
 const newGameButton = document.querySelector(".newWord");
@@ -13373,6 +13394,9 @@ newGameButton.addEventListener("click", () => {
     window.history.pushState("#" + checkURL(), "Shwordle", "/shwordle");
 
     newGame();
+
+    // Take the focus away from self to avoid accidentally restarting the game with enter
+    enterButton.focus();
 })
 
 function resetKeyboard() {
