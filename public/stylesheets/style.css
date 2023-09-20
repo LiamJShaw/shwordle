@@ -1,0 +1,278 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: Arial, Helvetica, sans-serif;
+    
+    color: white;
+}
+
+body {
+    
+    height: 80vh;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #0f0f0f;
+
+    /* 
+    --green: #6aaa64;
+    --darkendGreen: #538d4e;
+    --yellow: #c9b458;
+    --darkendYellow: #b59f3b;
+    --lightGray: #d8d8d8;
+    --gray: #86888a;
+    --darkGray: #939598;
+    --white: #fff;
+    --black: #212121; 
+    */
+}
+
+button {
+    background-color: #0f0f0f;
+    padding: 0.2em;
+    border-style: none;
+}
+
+header {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+
+    min-width: 100%;
+
+    padding: 0.25em 1em;
+    margin: 1rem 2rem 2rem 2rem;
+
+    border-bottom: 0.1rem solid grey;
+}
+
+h1 {
+    font-size: large;
+}
+
+.menu-left,
+.menu-right {
+    display: flex;
+    gap: 1rem;
+}
+
+.help,
+.settings,
+.stats {
+
+    opacity:0.1;
+
+}
+
+.help,
+.settings,
+.stats,
+.customChallenge {
+    border-style: none;
+
+    font-weight: 900;
+    font-size: 1.5rem;
+}
+
+.gameBoardContainer {
+
+    min-width: 80%;
+
+    display: flex;
+
+    justify-content: center;
+    align-content: center;
+
+    max-width: 20rem;
+
+    margin: 2rem;
+}
+
+#gameBoard {
+    display: flex;
+    flex-direction: column;
+
+    margin: 1em;
+
+    /* Need this for custom challenge as the 
+    text pushes the width of the gameBoard */
+    max-width: min-content;
+}
+
+.row {
+    display: flex;
+}
+
+.square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 3.5em;
+    min-width: 3.5em;
+    background-color: #0f0f0f;
+    border-style: solid;
+    border-color: #49494993;
+
+    margin: 0.3em;
+
+    font-weight: bold;
+    font-size: large;
+
+    text-transform: uppercase;
+}
+
+/* Modal */
+
+.modal {
+    visibility: hidden;
+
+    position: fixed;
+
+    width: 100%;
+    height: 100vh;
+
+    top: 0;
+    left: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0,0,0,0.6);
+
+    transition-delay: 0.5s;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    height: 50%;
+    min-width: 20rem;
+    max-width: 25rem;
+
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 10px;
+}
+
+.modal-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    border-bottom: 0.1rem solid grey;
+}
+
+.resultMessage {
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 2rem;
+    min-height: 2rem;
+    margin-top: 2rem;
+}
+
+.word {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.message {
+    padding: 1rem;
+    min-height: 2rem; 
+}
+
+.shareButton,
+.shareCustomChallenge,
+.newWord {
+
+    background-color: #696969;
+
+    padding: 0.5rem 1rem;
+
+    border-style: none;
+    border-radius: 10px;
+
+    font-size: 1rem;
+}
+
+.modal-bottom {
+    display: flex;
+    align-items: space-around;
+    justify-content: center;
+
+    gap: 1rem;
+
+    margin-top: 1rem;
+    
+}
+
+.new-button-container {
+    flex-basis: 100%;
+}
+
+/* Keyboard */
+
+.keyboard {
+    margin: 0.3rem;
+
+    display: grid;
+    grid-template-columns: repeat(20, minmax(auto, 1.25rem));
+    grid-auto-rows: 3rem;
+    gap: 0.25rem;
+    justify-content: center;
+}
+
+.key:hover {
+    opacity: 0.5;
+}
+
+.key:focus {
+    outline: 0;
+    box-shadow: none;
+  }
+  
+
+.key {
+    font-size: inherit;
+    border: none;
+    border-radius: 6px;
+    background-color: grey;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    grid-column: span 2;
+
+    user-select: none;
+}
+
+.key.large {
+    grid-column: span 3;
+    fill: white; /* for the backspace SVG */
+}
+
+.spacer {
+    border: none;
+}
+
+svg {
+    pointer-events: none;
+}
+
+.customChallengeText {
+    text-align: center;
+    margin: 1rem;
+    padding: 1rem;
+}
