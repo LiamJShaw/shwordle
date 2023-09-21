@@ -13025,7 +13025,6 @@ function handleMouseClick(e) {
     }
 
     if (e.target.matches("[data-key]")) {
-        console.log(e.target.dataset.key);
         pressKey(e.target.dataset.key);
     }
 
@@ -13041,8 +13040,6 @@ function pressKey(key) {
         guess += key;
         updateDisplay();
     }
-
-    console.log("Current guess", guess);
 }
 
 function deleteChar() {
@@ -13094,9 +13091,6 @@ function generateColumns(rowAmount, colAmount) {
 
 // Game logic
 function isWordValid(word) {
-
-    console.log("Word being checked:", word);
-
     // For some reason, the official word lists I used have a 
     // problem where the guessable words aren't in the allowed list
     if (allowedListArray.includes(word.toLowerCase())) return true;
@@ -13138,7 +13132,12 @@ function checkWord(guessedWord, generatedWord){
 
 function submitGuess() {
 
-    if (guesses > 5) return;
+    console.log(generatedWord);
+
+    if (guesses > 5) {
+        showModal();
+        return;
+    };
 
     let currentRow = rows[guesses].childNodes
 
@@ -13177,47 +13176,43 @@ function submitGuess() {
         
         switch(guesses) {
             case 1: 
-                resultMessage.textContent = "Genius!";
+                resultText = "Genius!";
                 break;
             case 2: 
-                resultMessage.textContent = "Magnificent!";
+                resultText= "Magnificent!";
                 break;
             case 3: 
-                resultMessage.textContent = "Impressive!";
+                resultText = "Impressive!";
                 break;
             case 4: 
-                resultMessage.textContent = "Splendid!";
+                resultText = "Splendid!";
                 break;
             case 5: 
-                resultMessage.textContent = "Great!";
+                resultText= "Great!";
                 break;
             case 5: 
-                resultMessage.textContent = "Phew!";
+                resultText = "Phew!";
                 break;
         }
-        
-        modal.style.visibility = "visible";
+
+        showModal();
     }
 
-    console.log("Guess at end of check", guess);
-
     if (guesses === 6 && result != "22222") { 
-        resultMessage.textContent = "Unlucky!";
-        showWord.textContent = "Word: " + generatedWord.toUpperCase()
-        modal.style.visibility = "visible";
+        resultText = "Unlucky!";
+        // showWord.textContent = "Word: " + generatedWord.toUpperCase()
+        showModal();
     } else {
         guess = "";
     }
-
-    guess = "";
 }
 
 // User interface
 function colourKey(key, colour) {
 
-    let green = "rgb(106, 170, 100)";
-    let yellow = "rgb(201, 180, 88)";
-    let grey = "rgba(255, 255, 255, 0.1)"
+    let green = "#6aaa64"; 
+    let yellow = "#c9b458"; 
+    let grey = "#86888a" 
 
     // Green
     if (colour === "green") {
@@ -13246,6 +13241,38 @@ function colourKey(key, colour) {
         key.style.backgroundColor = grey;
         return;
     }
+}
+
+
+// Modal
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('modal');
+    const modalContent = document.querySelector('.modal-content');
+    const closeButton = document.getElementById('closeButton');
+    const shareButton = document.getElementById('shareButton');
+
+    // Close modal on close button click
+    closeButton.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    // Close modal on outside click
+    window.addEventListener('click', function(event) {
+        if(event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+
+    // Event listener for share button
+    shareButton.addEventListener('click', function () {
+        console.log("Share button clicked");
+    });
+});
+
+// Function to Show Modal
+function showModal() {
+    const modal = document.getElementById('modal');
+    modal.style.display = 'flex';
 }
 
 // Functions I'd ideally like rid of!
