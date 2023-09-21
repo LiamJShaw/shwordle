@@ -80,6 +80,12 @@ h1 {
     font-size: 1.5rem;
 }
 
+.main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Take the full height of the viewport */
+  }  
+
 .gameBoardContainer {
 
     min-width: 80%;
@@ -120,7 +126,7 @@ h1 {
     border-style: solid;
     border-color: #49494993;
 
-    margin: 0.3em;
+    margin: 0.25em;
 
     font-weight: bold;
     font-size: large;
@@ -128,98 +134,6 @@ h1 {
     text-transform: uppercase;
 }
 
-/* Modal */
-
-.modal {
-    visibility: hidden;
-
-    position: fixed;
-
-    width: 100%;
-    height: 100vh;
-
-    top: 0;
-    left: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background-color: rgba(0,0,0,0.6);
-
-    transition-delay: 0.5s;
-}
-
-.modal-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-
-    height: 50%;
-    min-width: 20rem;
-    max-width: 25rem;
-
-    background-color: rgba(0,0,0,0.7);
-    border-radius: 10px;
-}
-
-.modal-top {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    
-    border-bottom: 0.1rem solid grey;
-}
-
-.resultMessage {
-    font-size: 2rem;
-    font-weight: bold;
-    padding: 2rem;
-    min-height: 2rem;
-    margin-top: 2rem;
-}
-
-.word {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-.message {
-    padding: 1rem;
-    min-height: 2rem; 
-}
-
-.shareButton,
-.shareCustomChallenge,
-.newWord {
-
-    background-color: #696969;
-
-    padding: 0.5rem 1rem;
-
-    border-style: none;
-    border-radius: 10px;
-
-    font-size: 1rem;
-}
-
-.modal-bottom {
-    display: flex;
-    align-items: space-around;
-    justify-content: center;
-
-    gap: 1rem;
-
-    margin-top: 1rem;
-    
-}
-
-.new-button-container {
-    flex-basis: 100%;
-}
 
 /* Keyboard */
 
@@ -233,9 +147,9 @@ h1 {
     justify-content: center;
 }
 
-.key:hover {
+/* .key:hover {
     opacity: 0.5;
-}
+} */
 
 .key:focus {
     outline: 0;
@@ -244,10 +158,13 @@ h1 {
   
 
 .key {
-    font-size: inherit;
+    font-size: 1.25em;
+    font-weight: bold;
+
     border: none;
-    border-radius: 6px;
-    background-color: grey;
+    border-radius: 4px;
+
+    background-color: #939598;
     
     display: flex;
     align-items: center;
@@ -275,4 +192,125 @@ svg {
     text-align: center;
     margin: 1rem;
     padding: 1rem;
+}
+
+/* Result modal */
+.modal {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+
+.modal-content {
+    width: 90%;
+    max-width: 500px;
+    background: #121212;
+    color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+}
+  
+
+.modal-header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-footer {
+    text-align: center;
+}
+
+.modal-body {
+    padding: 2rem;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Statistics Section */
+.statsTitle {
+    margin-bottom: 0.75rem;
+    margin-left: 0.25rem;
+}
+
+#statsModule {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  #statsModule li {
+    list-style: none;
+    text-align: center;
+  }
+  
+.statsValue {
+    font-size: large;
+    font-weight: 800;
+}
+
+.statsLabel {
+    font-size: small;
+}
+
+  /* Guess Distribution Section */
+  #guessDistribution {
+    list-style: none;
+  }
+  
+  #guessDistribution li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  #guessDistribution p {
+    margin: 0;
+    margin-right: 10px;
+  }
+  
+  .guess-bar {
+    background: #007bff;
+    height: 20px;
+  }
+
+#closeButton {
+    color: #ffffff;
+    background: #00000000;
+    font-size: large;
+    font-weight: 900;
+}
+
+#shareButton {
+    font-size: large;
+    font-weight: bold;
+    color: #000000;
+    background: #6aaa64;
+
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    margin: 1rem;
+
+    border: none;
+    cursor: pointer;
+}
+
+.modal-footer button:hover {
+    background: #666;
+}
+
+hr {
+    color:#939598;
 }

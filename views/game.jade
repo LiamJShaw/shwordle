@@ -10,23 +10,12 @@ html(lang='en')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
 
   body
-    //- Header
-    header(role='banner')
-      div.menu-left
-        button.help(role='button', aria-label='Help') ?
-        button.customChallenge(role='button', aria-label='Custom challenge')
-          i.fa.fa-pencil(aria-hidden='false')
-      
-      h1.title(id='titleId') SHWORDLE
-      
-      div.menu-right
-        button.stats(role='button', aria-label='Statistics')
-          i.fa.fa-bar-chart(aria-hidden='false')
-        button.settings(role='button', aria-label='Settings')
-          i.fa.fa-gear(aria-hidden='false')
+    include header.jade
 
-    //- Game Board
-    div.gameBoardContainer
+    //- Main Container
+    div.main-container
+      //- Game Board
+      div.gameBoardContainer
         div#gameBoard(role='grid', aria-label='Game board')
       
     //- Keyboard
@@ -68,3 +57,60 @@ html(lang='en')
         button.key.large(data-delete, tabindex='0', role='button', aria-label='Delete')
             svg(role='img', aria-label='Delete', xmlns='http://www.w3.org/2000/svg', height='24', viewBox='0 0 24 24', width='24')
                 path(d='M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z')
+
+#modal.modal
+    .modal-content
+        .modal-header
+            button#closeButton X
+        .modal-body
+            h4.statsTitle STATISTICS
+            ul#statsModule
+                li#statsPlayed 
+                    div#statsPlayedValue.statsValue 1
+                    div.statsLabel Played
+                li#statsWinPercent
+                    div#statsWinPercentValue.statsValue 100%
+                    div.statsLabel Win %
+                li#statsCurrentStreak 
+                    div#statsCurrentStreakValue.statsValue 1
+                    div.statsLabel Current Streak
+                li#statsMaxStreak 
+                    div#statsMaxStreakValue.statsValue 1
+                    div.statsLabel Max Streak
+
+            h4.statsTitle GUESS DISTRIBUTION
+            ul#guessDistribution
+                li#oneAttemptCount
+                    p 1
+                    div.oneAttemptCount
+                        p#oneAttemptCountValue 0
+                        div#oneAttemptCountBar
+                li#twoAttemptCount
+                    p 2
+                    div.twoAttemptCount
+                        p#twoAttemptCountValue 0
+                        div#twoAttemptCountBar
+                li#threeAttemptCount
+                    p 3
+                    div.threeAttemptCount
+                        p#threeAttemptCountValue 0
+                        div#threeAttemptCountBar
+                li#fourAttemptCount
+                    p 4
+                    div.fourAttemptCount
+                        p#fourAttemptCountValue 0
+                        div#fourAttemptCountBar
+                li#fiveAttemptCount
+                    p 5
+                    div.fiveAttemptCount
+                        p#fiveAttemptCountValue 0
+                        div#fiveAttemptCountBar
+                li#sixAttemptCount
+                    p 6
+                    div.sixAttemptCount
+                        p#sixAttemptCountValue 0
+                        div#sixAttemptCountBar            
+        hr
+        .modal-footer
+            button#shareButton Share Result
+            
