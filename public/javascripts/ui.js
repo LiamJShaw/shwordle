@@ -13014,25 +13014,47 @@ document.addEventListener('keydown', (event) => {
     
 })
 
-// Virtual keyboard
 const keyboard = document.querySelector(".keyboard");
 keyboard.addEventListener("click", handleMouseClick);
 
 function handleMouseClick(e) {
-
     if (e.target.matches("[data-enter]")) {
         submitGuess();
     }
 
     if (e.target.matches("[data-key]")) {
-        pressKey(e.target.dataset.key);
+        let keyElement = e.target;
+        keyElement.classList.add('grey-out');
+        setTimeout(() => {
+            keyElement.classList.remove('grey-out');
+        }, 100); // 100ms or adjust as needed
+        pressKey(keyElement.dataset.key);
     }
 
     if (e.target.matches("[data-delete]")) {
-        // backspace
         deleteChar(); 
     }
 }
+
+window.addEventListener('keydown', function (e) {
+    let key = e.key.toLowerCase();
+    let button = keyboard.querySelector(`[data-key='${key}']`);
+    if (button) {
+        button.classList.add('grey-out');
+        setTimeout(() => {
+            button.classList.remove('grey-out');
+        }, 100); // 100ms or adjust as needed
+    }
+});
+
+window.addEventListener('keyup', function (e) {
+    let key = e.key.toLowerCase();
+    let button = keyboard.querySelector(`[data-key='${key}']`);
+    if (button) {
+        button.classList.remove('grey-out');
+    }
+});
+
 
 function pressKey(key) {
 
@@ -13152,25 +13174,36 @@ function submitGuess() {
     gameBoardArray.push(result); // For exporting as emojis later
     
     for (let i = 0; i < 5; i++) {
-
+        const square = currentRow[i];
         const key = document.querySelector(`[data-key='${guess[i]}']`);
-
-        currentRow[i].textContent = guess[i];
-        currentRow[i].style.borderStyle = "none";
-
-        if (result[i] === "2") {
-            currentRow[i].style.backgroundColor = '#6aaa64';
-            colourKey(key, "green");
-;        }
-        if (result[i] === "1") {
-            currentRow[i].style.backgroundColor = '#c9b458';
-            colourKey(key, "yellow");
-        }
-        if (result[i] === "0") {
-            currentRow[i].style.backgroundColor = '#86888a'; 
-            colourKey(key, "grey");
-        }        
-      }
+    
+        square.textContent = guess[i];
+    
+        setTimeout(() => {
+            square.style.borderStyle = "none";
+            square.classList.add('flip-animate-instant');
+            setTimeout(() => {
+                square.classList.remove('flip-animate-instant');
+                square.classList.add('flip-animate-slow');
+                square.addEventListener('animationend', function() {
+                    square.classList.remove('flip-animate-slow');
+                }, { once: true });
+    
+                if (result[i] === "2") {
+                    square.style.backgroundColor = '#6aaa64';
+                    colourKey(key, "green");
+                }
+                if (result[i] === "1") {
+                    square.style.backgroundColor = '#c9b458';
+                    colourKey(key, "yellow");
+                }
+                if (result[i] === "0") {
+                    square.style.backgroundColor = '#86888a';
+                    colourKey(key, "grey");
+                }
+            }, 40);
+        }, i * 660);
+    }    
 
     if (result === "22222") {
         
@@ -13195,13 +13228,12 @@ function submitGuess() {
                 break;
         }
 
-        showModal();
+        showTooltip(resultText);
     }
 
     if (guesses === 6 && result != "22222") { 
-        resultText = "Unlucky!";
         // showWord.textContent = "Word: " + generatedWord.toUpperCase()
-        showModal();
+        showTooltip(generatedWord.toUpperCase());
     } else {
         guess = "";
     }
@@ -13212,7 +13244,7 @@ function colourKey(key, colour) {
 
     let green = "#6aaa64"; 
     let yellow = "#c9b458"; 
-    let grey = "#86888a" 
+    let grey = "#363636" 
 
     // Green
     if (colour === "green") {
@@ -13243,6 +13275,20 @@ function colourKey(key, colour) {
     }
 }
 
+// Result tooltip
+function showTooltip(resultText) {
+
+    // Assume tooltip is an element you have in your HTML to show the resultText
+    const tooltip = document.getElementById('tooltip');
+    tooltip.textContent = resultText;
+    tooltip.style.display = 'block';
+
+    // Hide tooltip after 3 seconds and show the modal
+    setTimeout(function() {
+        tooltip.style.display = 'none';
+        showModal();
+    }, 2000);
+}
 
 // Modal
 document.addEventListener('DOMContentLoaded', function() {

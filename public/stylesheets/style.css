@@ -83,7 +83,9 @@ h1 {
 .main-container {
     display: flex;
     flex-direction: column;
-    height: 100%; /* Take the full height of the viewport */
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
   }  
 
 .gameBoardContainer {
@@ -147,10 +149,6 @@ h1 {
     justify-content: center;
 }
 
-/* .key:hover {
-    opacity: 0.5;
-} */
-
 .key:focus {
     outline: 0;
     box-shadow: none;
@@ -184,6 +182,10 @@ h1 {
     border: none;
 }
 
+.grey-out {
+    background-color: rgb(54, 54, 54);
+}
+
 svg {
     pointer-events: none;
 }
@@ -192,6 +194,20 @@ svg {
     text-align: center;
     margin: 1rem;
     padding: 1rem;
+}
+
+/* Result tooltip */
+#tooltip {
+    position: absolute;
+
+    background-color: #ffffff;
+    color: black;
+    font-weight: 800;
+
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: none;
+    /* additional styles as needed */
 }
 
 /* Result modal */
@@ -313,4 +329,37 @@ svg {
 
 hr {
     color:#939598;
+}
+
+
+
+
+/* Animations */
+@keyframes flip-instant {
+    to {
+        transform: rotateX(180deg);
+    }
+}
+
+@keyframes flip-slow {
+    from {
+        transform: rotateX(180deg);
+    }
+    to {
+        transform: rotateX(0deg);
+    }
+}
+
+.flip-animate-instant {
+    animation-name: flip-instant;
+    animation-duration: 0ms;
+    animation-fill-mode: backwards;
+    transform-style: preserve-3d;
+}
+
+.flip-animate-slow {
+    animation-name: flip-slow;
+    animation-duration: 700ms;
+    animation-fill-mode: forwards;
+    transform-style: preserve-3d;
 }
