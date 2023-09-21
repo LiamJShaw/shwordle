@@ -13178,7 +13178,7 @@ function game(guess) {
             colourKey(key, "yellow");
         }
         if (result[i] === "0") {
-            currentRow[i].style.backgroundColor = '#86888a'; 
+            currentRow[i].style.backgroundColor = '#939598'; 
             colourKey(key, "grey");
         }        
       }
@@ -13248,7 +13248,7 @@ function colourKey(key, colour) {
             return;
         }
 
-        key.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+        key.style.backgroundColor = 'red';
         return;
     }
 }
