@@ -13148,8 +13148,6 @@ const showWord = document.querySelector(".word");
 
 function game(guess) {
 
-    console.log("Game called");
-
     if (guesses > 5) return;
 
     let currentRow = rows[guesses].childNodes
