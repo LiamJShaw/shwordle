@@ -81,7 +81,6 @@ window.addEventListener('keyup', function (e) {
 
 
 function pressKey(key) {
-
     if (guess.length < 5) {
         guess += key;
         updateDisplay();
@@ -104,6 +103,7 @@ function updateDisplay() {
         currentRow[i].textContent = guess[i];
     }
 }
+
 
 // Game Board
 const gameBoard = document.getElementById('gameBoard');
@@ -135,116 +135,133 @@ function generateColumns(rowAmount, colAmount) {
     }
 }
 
+
 // Game logic
 function isWordValid(word) {
-    fetch(`/api/isWordValid/${word}`)
+    return fetch(`/api/isWordValid/${word}`)
     .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
       return response.json();
     })
-    .then(json => {
-      if (!json.isValid) {
-        // Tell user word is invalid
-        console.error('Word is invalid!');
-        return false;
-      } else {
-        // Continue with valid word
-        console.log('Word is valid!');
-        return true;
-      }
-    })
-    .catch((error) => console.error('Fetch error: ', error));
+    .then(json => json.isValid)
+    .catch((error) => {
+      console.error('Fetch error: ', error);
+      return false; // Return false if an error occurs
+    });
 }
 
 function checkWord(guessedWord, generatedWord){
 
-    let result = "00000";
-    let tmpGeneratedWord = generatedWord;
+    // Create an array of "greys" as long as the word submitted
+    let result = Array.from({ length: generatedWord.length }, () => "grey");
 
-    for(let i= 0; i < 5; i++){
+    // Convert strings to arrays for easier manipulation
+    let guessedWordArray = [...guessedWord];
+    let generatedWordArray = [...generatedWord];
+    let tmpGeneratedWordArray = [...generatedWord]; 
+
+    // Check greens
+    for(let i = 0; i < guessedWordArray.length; i++){
             
         // If letter is in correct place
-        if (guessedWord.charAt(i) === generatedWord.charAt(i)){
-            result = setCharAt(result, i, "2");
+        if (guessedWordArray[i] === generatedWordArray[i]) {
+            result[i] = "green";
 
-            // Removes the characters so they can't be counted twice  
-            tmpGeneratedWord = setCharAt(tmpGeneratedWord, i, "#");  
-            guessedWord = setCharAt(guessedWord, i, "@");  
-        }
-    }
-
-    for(let i= 0; i < 5; i++){
-
-        // If letter is in word but wrong place
-        if (tmpGeneratedWord.includes(guessedWord.charAt(i))){
-            result = setCharAt(result, i, "1");
-
-            // Only colour amount of yellows that are in word
-            tmpGeneratedWord = setCharAt(tmpGeneratedWord, tmpGeneratedWord.indexOf(guessedWord.charAt(i)), "$");
+            // Remove the characters so they can't be counted twice  
+            tmpGeneratedWordArray[i] = "#";
+            guessedWordArray[i] = "@";
         }
     }
     
+    // Check yellows
+    for(let i = 0; i < guessedWordArray.length; i++){
+
+        // If letter is in word but wrong place
+        if (tmpGeneratedWordArray.includes(guessedWordArray[i])) {
+            result[i] = "yellow";
+
+            // Remove letter to only colour amount of yellows that are in word
+            tmpGeneratedWordArray[i] = "$";
+        }
+    }
+
+    // Then the greys sort themselves
     return result;
 }
 
-function submitGuess() {
+function colourGameboardSquares(result) {
+    return new Promise((resolve) => {
+        let currentRow = rows[guesses].childNodes;
+        let animationsCompleted = 0;
 
-    console.log(generatedWord);
+        for (let i = 0; i < 5; i++) {
+            const square = currentRow[i];
+            square.textContent = guess[i];
 
+            setTimeout(() => {
+                square.style.borderStyle = "none";
+                square.classList.add('flip-animate-instant');
+                setTimeout(() => {
+                    square.classList.remove('flip-animate-instant');
+                    square.classList.add('flip-animate-slow');
+                    square.addEventListener('animationend', function() {
+                        square.classList.remove('flip-animate-slow');
+                        animationsCompleted++;
+                        if (animationsCompleted === 5) {
+                            resolve();
+                        }
+                    }, { once: true });
+
+                    if (result[i] === "green") {
+                        square.style.backgroundColor = '#6aaa64';
+                    }
+                    if (result[i] === "yellow") {
+                        square.style.backgroundColor = '#c9b458';
+                    }
+                    if (result[i] === "grey") {
+                        square.style.backgroundColor = '#86888a';
+                    }
+                }, 40);
+            }, i * 600);
+        }
+    });
+}
+
+function colourKeyboardKeys(result) {
+    for (let i = 0; i < 5; i++) {
+        const key = document.querySelector(`[data-key='${guess[i]}']`);
+
+        colourKey(key, result[i])
+    }
+}
+
+async function submitGuess() {
+
+    // This is relevant when reloading a completed daily game
     if (guesses > 5) {
         showResultsModal();
         return;
     };
-
-    let currentRow = rows[guesses].childNodes
-
-    console.log(isWordValid(guess));
-
-    if (!isWordValid(guess)) {
+    
+    const validWord = await isWordValid(guess);
+        
+    if (!validWord) {
         // Tell user word is invalid
         return;        
     }
 
-    guesses++;
-    
     let result = checkWord(guess, generatedWord);
     gameBoardArray.push(result); // For exporting as emojis later
     
-    for (let i = 0; i < 5; i++) {
-        const square = currentRow[i];
-        const key = document.querySelector(`[data-key='${guess[i]}']`);
-    
-        square.textContent = guess[i];
-    
-        setTimeout(() => {
-            square.style.borderStyle = "none";
-            square.classList.add('flip-animate-instant');
-            setTimeout(() => {
-                square.classList.remove('flip-animate-instant');
-                square.classList.add('flip-animate-slow');
-                square.addEventListener('animationend', function() {
-                    square.classList.remove('flip-animate-slow');
-                }, { once: true });
-    
-                if (result[i] === "2") {
-                    square.style.backgroundColor = '#6aaa64';
-                    colourKey(key, "green");
-                }
-                if (result[i] === "1") {
-                    square.style.backgroundColor = '#c9b458';
-                    colourKey(key, "yellow");
-                }
-                if (result[i] === "0") {
-                    square.style.backgroundColor = '#86888a';
-                    colourKey(key, "grey");
-                }
-            }, 40);
-        }, i * 660);
-    }    
+    await colourGameboardSquares(result);
+    colourKeyboardKeys(result);  
 
-    if (result === "22222") {
+    guesses++;
+
+    // If result is all green
+    if (result.every(color => color === "green")) {
         
         switch(guesses) {
             case 1: 
@@ -268,10 +285,8 @@ function submitGuess() {
         }
 
         showTooltip(resultText);
-    }
 
-    if (guesses === 6 && result != "22222") { 
-        // showWord.textContent = "Word: " + generatedWord.toUpperCase()
+    } else if (guesses === 6) {
         showTooltip(generatedWord.toUpperCase());
     } else {
         guess = "";
