@@ -12976,10 +12976,6 @@ const allowedListArray = ["satan",
 const today = new Date();
 const dateString = today.getUTCFullYear() + "-" + (today.getUTCMonth() + 1) + "-" + today.getUTCDate();
 
-exports.isWordAllowed = (word) => {
-    
-}
-
 function hashCode(str) {
     var hash = 0;
     for (var i = 0; i < str.length; i++) {
@@ -13000,6 +12996,7 @@ exports.generateRandomWord = () => {
     const random = Math.floor(Math.random() * (wordListArray.length-1));    
     return wordListArray[random];
 }
+
 exports.isWordValid = (word) => {
     // For some reason, the official word lists I used have a 
     // problem where the guessable words aren't in the allowed list

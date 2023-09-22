@@ -152,44 +152,38 @@ function isWordValid(word) {
     });
 }
 
-function checkWord(guessedWord, generatedWord){
+function checkWord(guessedWord, generatedWord) {
 
-    // Create an array of "greys" as long as the word submitted
     let result = Array.from({ length: generatedWord.length }, () => "grey");
-
-    // Convert strings to arrays for easier manipulation
     let guessedWordArray = [...guessedWord];
     let generatedWordArray = [...generatedWord];
-    let tmpGeneratedWordArray = [...generatedWord]; 
+    let tmpGeneratedWordArray = [...generatedWord];
 
     // Check greens
-    for(let i = 0; i < guessedWordArray.length; i++){
-            
-        // If letter is in correct place
+    for (let i = 0; i < guessedWordArray.length; i++) {
         if (guessedWordArray[i] === generatedWordArray[i]) {
             result[i] = "green";
-
-            // Remove the characters so they can't be counted twice  
-            tmpGeneratedWordArray[i] = "#";
-            guessedWordArray[i] = "@";
+            tmpGeneratedWordArray[i] = "#"; // Replace the correct character in tmpGeneratedWordArray with a placeholder
+            guessedWordArray[i] = "@"; // Also replace the character in guessedWordArray to avoid counting it as yellow in the next step
         }
     }
-    
+
     // Check yellows
-    for(let i = 0; i < guessedWordArray.length; i++){
-
-        // If letter is in word but wrong place
-        if (tmpGeneratedWordArray.includes(guessedWordArray[i])) {
-            result[i] = "yellow";
-
-            // Remove letter to only colour amount of yellows that are in word
-            tmpGeneratedWordArray[i] = "$";
+    for (let i = 0; i < guessedWordArray.length; i++) {
+        let indexInGenerated = tmpGeneratedWordArray.indexOf(guessedWordArray[i]);
+        if (indexInGenerated !== -1) {
+            // If the character is not already marked green
+            if (result[i] !== "green") {
+                result[i] = "yellow";
+            }
+            // Replace the character in tmpGeneratedWordArray with a placeholder to avoid counting it again
+            tmpGeneratedWordArray[indexInGenerated] = "#";
         }
     }
 
-    // Then the greys sort themselves
     return result;
 }
+
 
 function colourGameboardSquares(result) {
     return new Promise((resolve) => {
@@ -344,7 +338,7 @@ function showTooltip(resultText) {
     }, 2000);
 }
 
-// Modal
+// Results Modal
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('modal');
     const modalContent = document.querySelector('.modal-content');
@@ -369,15 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Function to Show Modal
 function showResultsModal() {
     const modal = document.getElementById('modal');
     modal.style.display = 'flex';
-}
-
-// Functions I'd ideally like rid of!
-function setCharAt(str, index, char) {
-    if(index > str.length-1) return str;
-
-    return str.substring(0, index) + char + str.substring(index+1);
 }

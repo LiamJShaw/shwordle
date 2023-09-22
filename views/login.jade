@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title Log In
+    link(rel="stylesheet", href="/stylesheets/landing.css")
+  body
+    div#container
+      h1 Log In
+      form(action='/user/login', method='post')
+        label(for='username') Username: 
+        input(type='text', name='username', id='username')
+        
+        br
+
+        label(for='password') Password: 
+        input(type='password', name='password', id='password')
+
+        br
+
+        button(type='submit') Log in
