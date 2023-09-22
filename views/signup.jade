@@ -1,0 +1,31 @@
+doctype html
+html
+  head
+    title Sign Up
+    link(rel="stylesheet", href="/stylesheets/landing.css")
+  body
+    div#container
+      h1 Sign Up
+      if errors
+        ul
+          each error in errors
+            li= error.msg
+      form(action='/user/signup', method='post')
+
+        label(for='username') Username: 
+        input(type='text', name='username', id='username')
+        
+        br
+        
+        label(for='password') Password: 
+        input(type='password', name='password', id='password')
+
+        br
+
+        label(for='confirmpassword') Confirm Password: 
+        input(type='password', name='confirmpassword', id='confirmpassword')
+
+        br
+        br
+
+        button(type='submit') Sign Up
