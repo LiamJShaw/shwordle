@@ -1,0 +1,75 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #252525;
+    color: #ffffff;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    padding-top: 20vh
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* If you want the image to be centered relative to the whole window, not its container */
+  svg {
+    text-align: center
+  }
+  
+  h1 {
+    font-size: 3em;
+    font-weight: bold; /* Makes the Title Bolder */
+    margin-bottom: 10px;
+    color: #E0E0E0; /* Light Grey */
+  }
+
+#date {
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    color: #BDBDBD; /* Grey */
+  }
+  
+button {
+    cursor: pointer;
+    background: #6aaa64;
+    color: #ffffff;
+    font-weight: bold;
+    
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  
+button:hover {
+    background: #385c35; /* Even Darker on Hover */
+}
+  
+.play-button button {
+    font-size: 32px;
+    padding: 20px 40px;
+}
+  
+.auth-buttons {
+    margin-top: 20px;
+}
+  
+.auth-buttons button {
+    background-color: gray;
+    color: white;
+}
+  
+a {
+    text-decoration: none; /* Removes underline from all links */
+    color: inherit; /* Inherits text color from parent element */
+    display: inline-block; /* To ensure the link wraps around your button properly */
+}

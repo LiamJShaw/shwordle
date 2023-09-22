@@ -1,0 +1,345 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+    font-family: Arial, Helvetica, sans-serif;
+    
+    color: white;
+}
+
+body {
+    
+    height: 80vh;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #0f0f0f;
+}
+
+button {
+    background-color: #0f0f0f;
+    padding: 0.2em;
+    border-style: none;
+}
+
+header {
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
+
+    min-width: 100%;
+
+    padding: 0.25em 1em;
+    margin: 1rem 2rem 2rem 2rem;
+
+    border-bottom: 0.1rem solid grey;
+}
+
+h1 {
+    font-size: large;
+}
+
+.menu-left,
+.menu-right {
+    display: flex;
+    gap: 1rem;
+}
+
+.help,
+.settings,
+.stats,
+.customChallenge {
+    border-style: none;
+
+    font-weight: 900;
+    font-size: 1.5rem;
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }  
+
+.gameBoardContainer {
+
+    min-width: 80%;
+
+    display: flex;
+
+    justify-content: center;
+    align-content: center;
+
+    max-width: 20rem;
+
+    margin: 2rem;
+}
+
+#gameBoard {
+    display: flex;
+    flex-direction: column;
+
+    margin: 1em;
+
+    /* Need this for custom challenge as the 
+    text pushes the width of the gameBoard */
+    max-width: min-content;
+}
+
+.row {
+    display: flex;
+}
+
+.square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 3.5em;
+    min-width: 3.5em;
+    background-color: #0f0f0f;
+    border-style: solid;
+    border-color: #49494993;
+
+    margin: 0.25em;
+
+    font-weight: bold;
+    font-size: large;
+
+    text-transform: uppercase;
+}
+
+
+/* Keyboard */
+
+.keyboard {
+    margin: 0.3rem;
+
+    display: grid;
+    grid-template-columns: repeat(20, minmax(auto, 1.25rem));
+    grid-auto-rows: 3rem;
+    gap: 0.25rem;
+    justify-content: center;
+}
+
+.key:focus {
+    outline: 0;
+    box-shadow: none;
+  }
+  
+
+.key {
+    font-size: 1.25em;
+    font-weight: bold;
+
+    border: none;
+    border-radius: 4px;
+
+    background-color: #939598;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    grid-column: span 2;
+
+    user-select: none;
+}
+
+.key.large {
+    grid-column: span 3;
+    fill: white; /* for the backspace SVG */
+}
+
+.spacer {
+    border: none;
+}
+
+.grey-out {
+    background-color: rgb(54, 54, 54);
+}
+
+svg {
+    pointer-events: none;
+}
+
+.customChallengeText {
+    text-align: center;
+    margin: 1rem;
+    padding: 1rem;
+}
+
+/* Result tooltip */
+#tooltip {
+    position: absolute;
+
+    background-color: #ffffff;
+    color: black;
+    font-weight: 800;
+
+    border-radius: 10px;
+    padding: 10px 20px;
+    display: none;
+    /* additional styles as needed */
+}
+
+/* Result modal */
+.modal {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+
+.modal-content {
+    width: 90%;
+    max-width: 500px;
+    background: #121212;
+    color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+
+    display: flex;
+    flex-direction: column;
+}
+  
+
+.modal-header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-footer {
+    text-align: center;
+}
+
+.modal-body {
+    padding: 2rem;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Statistics Section */
+.statsTitle {
+    margin-bottom: 0.75rem;
+    margin-left: 0.25rem;
+}
+
+#statsModule {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  #statsModule li {
+    list-style: none;
+    text-align: center;
+  }
+  
+.statsValue {
+    font-size: large;
+    font-weight: 800;
+}
+
+.statsLabel {
+    font-size: small;
+}
+
+  /* Guess Distribution Section */
+  #guessDistribution {
+    list-style: none;
+  }
+  
+  #guessDistribution li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  #guessDistribution p {
+    margin: 0;
+    margin-right: 10px;
+  }
+  
+  .guess-bar {
+    background: #007bff;
+    height: 20px;
+  }
+
+#closeButton {
+    color: #ffffff;
+    background: #00000000;
+    font-size: large;
+    font-weight: 900;
+}
+
+#shareButton {
+    font-size: large;
+    font-weight: bold;
+    color: #ffffff;
+    background: #6aaa64be;
+
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    margin: 1rem;
+
+    border: none;
+    cursor: pointer;
+}
+
+.modal-footer button:hover {
+    background: #666;
+}
+
+hr {
+    color:#939598;
+}
+
+
+
+
+/* Animations */
+@keyframes flip-instant {
+    to {
+        transform: rotateX(180deg);
+    }
+}
+
+@keyframes flip-slow {
+    from {
+        transform: rotateX(180deg);
+    }
+    to {
+        transform: rotateX(0deg);
+    }
+}
+
+.flip-animate-instant {
+    animation-name: flip-instant;
+    animation-duration: 0ms;
+    animation-fill-mode: backwards;
+    transform-style: preserve-3d;
+}
+
+.flip-animate-slow {
+    animation-name: flip-slow;
+    animation-duration: 700ms;
+    animation-fill-mode: forwards;
+    transform-style: preserve-3d;
+}

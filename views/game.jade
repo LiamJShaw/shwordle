@@ -1,0 +1,119 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=no')
+    title SHWORDLE
+    script.
+        var backendWord = "#{word}";
+    script(src='/javascripts/ui.js', defer)
+    link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+
+  body
+    include header.jade
+
+    //- Main Container
+    div.main-container
+      #tooltip Tooltip
+      //- Game Board
+      div.gameBoardContainer
+        div#gameBoard(role='grid', aria-label='Game board')
+      
+    //- Keyboard
+    div.keyboard(role='navigation', aria-label='Virtual keyboard')
+        button.key(data-key='q', tabindex='0', role='button') Q
+        button.key(data-key='w', tabindex='0', role='button') W
+        button.key(data-key='e', tabindex='0', role='button') E
+        button.key(data-key='r', tabindex='0', role='button') R
+        button.key(data-key='t', tabindex='0', role='button') T
+        button.key(data-key='y', tabindex='0', role='button') Y
+        button.key(data-key='u', tabindex='0', role='button') U
+        button.key(data-key='i', tabindex='0', role='button') I
+        button.key(data-key='o', tabindex='0', role='button') O
+        button.key(data-key='p', tabindex='0', role='button') P
+
+        button.spacer(tabindex='0', role='button') 
+
+        button.key(data-key='a', tabindex='0', role='button') A
+        button.key(data-key='s', tabindex='0', role='button') S
+        button.key(data-key='d', tabindex='0', role='button') D
+        button.key(data-key='f', tabindex='0', role='button') F
+        button.key(data-key='g', tabindex='0', role='button') G
+        button.key(data-key='h', tabindex='0', role='button') H
+        button.key(data-key='j', tabindex='0', role='button') J
+        button.key(data-key='k', tabindex='0', role='button') K
+        button.key(data-key='l', tabindex='0', role='button') L
+
+        button.spacer(tabindex='0', role='button') 
+
+        button.key.large(data-enter, tabindex='0', role='button', aria-label='Enter') Enter
+        button.key(data-key='z', tabindex='0', role='button') Z
+        button.key(data-key='x', tabindex='0', role='button') X
+        button.key(data-key='c', tabindex='0', role='button') C
+        button.key(data-key='v', tabindex='0', role='button') V
+        button.key(data-key='b', tabindex='0', role='button') B
+        button.key(data-key='n', tabindex='0', role='button') N
+        button.key(data-key='m', tabindex='0', role='button') M
+
+        button.key.large(data-delete, tabindex='0', role='button', aria-label='Delete')
+            svg(role='img', aria-label='Delete', xmlns='http://www.w3.org/2000/svg', height='24', viewBox='0 0 24 24', width='24')
+                path(d='M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z')
+
+#modal.modal
+    .modal-content
+        .modal-header
+            button#closeButton X
+        .modal-body
+            h4.statsTitle STATISTICS
+            ul#statsModule
+                li#statsPlayed 
+                    div#statsPlayedValue.statsValue 1
+                    div.statsLabel Played
+                li#statsWinPercent
+                    div#statsWinPercentValue.statsValue 100%
+                    div.statsLabel Win %
+                li#statsCurrentStreak 
+                    div#statsCurrentStreakValue.statsValue 1
+                    div.statsLabel Current Streak
+                li#statsMaxStreak 
+                    div#statsMaxStreakValue.statsValue 1
+                    div.statsLabel Max Streak
+
+            h4.statsTitle GUESS DISTRIBUTION
+            ul#guessDistribution
+                li#oneAttemptCount
+                    p 1
+                    div.oneAttemptCount
+                        p#oneAttemptCountValue 0
+                        div#oneAttemptCountBar
+                li#twoAttemptCount
+                    p 2
+                    div.twoAttemptCount
+                        p#twoAttemptCountValue 0
+                        div#twoAttemptCountBar
+                li#threeAttemptCount
+                    p 3
+                    div.threeAttemptCount
+                        p#threeAttemptCountValue 0
+                        div#threeAttemptCountBar
+                li#fourAttemptCount
+                    p 4
+                    div.fourAttemptCount
+                        p#fourAttemptCountValue 0
+                        div#fourAttemptCountBar
+                li#fiveAttemptCount
+                    p 5
+                    div.fiveAttemptCount
+                        p#fiveAttemptCountValue 0
+                        div#fiveAttemptCountBar
+                li#sixAttemptCount
+                    p 6
+                    div.sixAttemptCount
+                        p#sixAttemptCountValue 0
+                        div#sixAttemptCountBar            
+        hr
+        .modal-footer
+            button#shareButton Share Result
+            
