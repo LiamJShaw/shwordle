@@ -300,8 +300,8 @@ svg {
 #shareButton {
     font-size: large;
     font-weight: bold;
-    color: #000000;
-    background: #6aaa64;
+    color: #ffffff;
+    background: #6aaa64be;
 
     border-radius: 10px;
     padding: 0.5rem 1rem;
