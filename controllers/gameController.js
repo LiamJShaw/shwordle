@@ -12973,23 +12973,16 @@ const allowedListArray = ["satan",
 "zymes",
 "zymic"];
 
-const today = new Date();
-const dateString = today.getUTCFullYear() + "-" + (today.getUTCMonth() + 1) + "-" + today.getUTCDate();
-
-function hashCode(str) {
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-        var char = str.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32bit integer
-    }
-    return hash;
-}
-
-const index = Math.abs(hashCode(dateString)) % wordListArray.length;
+const seedrandom = require('seedrandom');
 
 exports.getDailyWord = () => {
-    return wordListArray[index];
+    const today = new Date();
+    const seed = today.toISOString().split('T')[0];
+    
+    const rng = seedrandom(seed);
+    const randomIndex = Math.floor(rng() * wordListArray.length);
+    
+    return wordListArray[randomIndex];
 }
 
 exports.generateRandomWord = () => {

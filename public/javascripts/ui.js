@@ -412,5 +412,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function showResultsModal() {
     const modal = document.getElementById('modal');
-    modal.style.display = 'flex';
+    const modalContent = modal.querySelector('.modal-content');
+    
+    modal.style.display = 'flex'; 
+    modal.classList.add('modal-bg-fade-in'); 
+    modalContent.classList.add('modal-content-slide-up'); 
+}
+
+function hideModal() {
+    const modal = document.getElementById('modal');
+    const modalContent = modal.querySelector('.modal-content');
+    
+    modal.classList.remove('modal-bg-fade-in'); 
+    modalContent.classList.remove('modal-content-slide-up');
+    modal.style.display = 'none'; 
 }
