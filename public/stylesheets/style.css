@@ -315,6 +315,8 @@ hr {
 
 
 /* Animations */
+
+/* Gameboard letters */
 @keyframes flip-instant {
     to {
         transform: rotateX(180deg);
@@ -343,3 +345,24 @@ hr {
     animation-fill-mode: forwards;
     transform-style: preserve-3d;
 }
+
+/* Gameboard row error*/
+@keyframes jiggle {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+}
+
+.jiggle-animation {
+    animation: jiggle 0.2s linear;
+}
+

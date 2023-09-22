@@ -60,9 +60,20 @@ function handleMouseClick(e) {
     }
 }
 
+//  Virtual keyboard
 window.addEventListener('keydown', function (e) {
-    let key = e.key.toLowerCase();
-    let button = keyboard.querySelector(`[data-key='${key}']`);
+    let selector;
+    
+    if (e.code === "Enter") {
+        selector = "[data-enter]";
+    } else if (e.code === "Backspace") {
+        selector = "[data-delete]";
+    } else {
+        selector = `[data-key='${e.key.toLowerCase()}']`;
+    }
+
+    let button = keyboard.querySelector(selector);
+    
     if (button) {
         button.classList.add('grey-out');
         setTimeout(() => {
@@ -72,12 +83,22 @@ window.addEventListener('keydown', function (e) {
 });
 
 window.addEventListener('keyup', function (e) {
-    let key = e.key.toLowerCase();
-    let button = keyboard.querySelector(`[data-key='${key}']`);
+    let selector;
+    
+    if (e.code === "Enter") {
+        selector = "[data-enter]";
+    } else if (e.code === "Backspace") {
+        selector = "[data-delete]";
+    } else {
+        selector = `[data-key='${e.key.toLowerCase()}']`;
+    }
+
+    let button = keyboard.querySelector(selector);
     if (button) {
         button.classList.remove('grey-out');
     }
 });
+
 
 
 function pressKey(key) {
@@ -233,6 +254,15 @@ function colourKeyboardKeys(result) {
 
 async function submitGuess() {
 
+    let currentRow = rows[guesses];
+
+    // Check if guess length is 5
+    if (guess.length !== 5) {
+        showErrorTooltip("Not enough letters");
+        applyJiggleAnimation(currentRow);
+        return;
+    }
+
     // This is relevant when reloading a completed daily game
     if (guesses > 5) {
         showResultsModal();
@@ -242,7 +272,8 @@ async function submitGuess() {
     const validWord = await isWordValid(guess);
         
     if (!validWord) {
-        // Tell user word is invalid
+        showErrorTooltip("Not in word list");
+        applyJiggleAnimation(currentRow);
         return;        
     }
 
@@ -278,10 +309,10 @@ async function submitGuess() {
                 break;
         }
 
-        showTooltip(resultText);
+        showResultTooltip(resultText);
 
     } else if (guesses === 6) {
-        showTooltip(generatedWord.toUpperCase());
+        showResultTooltip(generatedWord.toUpperCase());
     } else {
         guess = "";
     }
@@ -323,19 +354,35 @@ function colourKey(key, colour) {
     }
 }
 
+// Tooltips
+const tooltip = document.getElementById('tooltip');
+
 // Result tooltip
-function showTooltip(resultText) {
+function showResultTooltip(resultText) {
 
     // Assume tooltip is an element you have in your HTML to show the resultText
-    const tooltip = document.getElementById('tooltip');
     tooltip.textContent = resultText;
     tooltip.style.display = 'block';
 
-    // Hide tooltip after 3 seconds and show the modal
+    // Hide tooltip after 2 seconds and show the modal
     setTimeout(function() {
         tooltip.style.display = 'none';
         showResultsModal();
     }, 2000);
+}
+
+// Errors
+function showErrorTooltip(errorText) {
+    tooltip.textContent = errorText;
+    tooltip.style.display = 'block';
+    setTimeout(() => tooltip.style.display = 'none', 2000); // Hide after 2 seconds
+
+}
+function applyJiggleAnimation(row) {
+    row.classList.add('jiggle-animation');
+    row.addEventListener('animationend', () => {
+        row.classList.remove('jiggle-animation');
+    }, { once: true });
 }
 
 // Results Modal

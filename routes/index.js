@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const gameController = require("../controllers/game_controller");
+const gameController = require("../controllers/gameController");
 
 const today  = new Date();
 const titleDate = today.toLocaleDateString('en-GB', 
