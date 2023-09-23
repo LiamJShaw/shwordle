@@ -11,9 +11,7 @@ exports.getSignupPage = (req, res) => {
   };
   
   exports.createUser = async (req, res, next) => {
-    console.log('Inside createUser method'); // Log to see if method is entered
     const errors = validationResult(req);
-    console.log('Validation Result: ', errors.array()); // Log validation results
     if (!errors.isEmpty()) {
       return res.status(400).render('signup', { errors: errors.array() });
     }  
@@ -27,7 +25,6 @@ exports.getSignupPage = (req, res) => {
       await user.save();
       res.redirect('/play');
     } catch (err) {
-      console.log('Error Occurred: ', err); // Log the error object
       if (err.code === 11000) { // MongoDB duplicate key error code
         // Render the signup page with a relevant error message
         return res.status(400).render('signup', {
@@ -38,3 +35,31 @@ exports.getSignupPage = (req, res) => {
       next(err);
     }
 };
+
+
+// Stats
+// userController.js
+exports.getUserStats = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ username: req.user.username });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    
+    const stats = calculateStats(user.scores);
+    res.json(stats);
+  } catch (err) {
+    next(err);
+  }
+};
+
+function calculateStats(scores) {
+  // Initialize counts
+  const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+  scores.forEach(score => {
+    if (counts[score] !== undefined) counts[score]++;
+  });
+  const totalGames = scores.length;
+  return {
+    counts,
+    totalGames
+  };
+}

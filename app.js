@@ -32,13 +32,13 @@ async function main() {
   console.log("MongoDB: Successfully connected");
 }
 
+// Session middleware
 app.use(session({ 
   secret: "shwordle", 
   resave: false, 
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
-    sameSite: 'None',
-    secure: true, // this is needed for SameSite=None
+    secure: false,
   },
 }));
 
@@ -78,6 +78,7 @@ passport.deserializeUser(async (id, done) => {
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {

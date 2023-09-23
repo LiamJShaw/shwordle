@@ -7,6 +7,7 @@ html(lang='en')
     title SHWORDLE
     script.
         var backendWord = "#{word}";
+        var userScores = !{JSON.stringify(userScores)};
     script(src='/javascripts/ui.js', defer)
     link(rel='stylesheet', type='text/css', href='/stylesheets/style.css')
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
@@ -83,36 +84,36 @@ html(lang='en')
 
             h4.statsTitle GUESS DISTRIBUTION
             ul#guessDistribution
-                li#oneAttemptCount
+                li#1AttemptCount
                     p 1
-                    div.oneAttemptCount
-                        p#oneAttemptCountValue 0
-                        div#oneAttemptCountBar
-                li#twoAttemptCount
+                    div.AttemptCount
+                        div#1AttemptCountBar
+                            p#1AttemptCountValue 0
+                li#2AttemptCount
                     p 2
-                    div.twoAttemptCount
-                        p#twoAttemptCountValue 0
-                        div#twoAttemptCountBar
-                li#threeAttemptCount
+                    div.AttemptCount                    
+                        div#2AttemptCountBar
+                            p#2AttemptCountValue 0
+                li#3AttemptCount
                     p 3
-                    div.threeAttemptCount
-                        p#threeAttemptCountValue 0
-                        div#threeAttemptCountBar
-                li#fourAttemptCount
+                    div.AttemptCount
+                        div#3AttemptCountBar
+                            p#3AttemptCountValue 0
+                li#4AttemptCount
                     p 4
-                    div.fourAttemptCount
-                        p#fourAttemptCountValue 0
-                        div#fourAttemptCountBar
-                li#fiveAttemptCount
+                    div.AttemptCount
+                        div#4AttemptCountBar
+                            p#4AttemptCountValue 0
+                li#5AttemptCount
                     p 5
-                    div.fiveAttemptCount
-                        p#fiveAttemptCountValue 0
-                        div#fiveAttemptCountBar
-                li#sixAttemptCount
+                    div.AttemptCount
+                        div#5AttemptCountBar
+                            p#5AttemptCountValue 0
+                li#6AttemptCount
                     p 6
-                    div.sixAttemptCount
-                        p#sixAttemptCountValue 0
-                        div#sixAttemptCountBar            
+                    div.AttemptCount
+                        div#6AttemptCountBar
+                            p#6AttemptCountValue 0       
         hr
         .modal-footer
             button#shareButton Share Result

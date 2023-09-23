@@ -15,11 +15,19 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: `SHWORDLE | ${titleDate}`, date: pageDate });
 });
 
-// Daily game
 router.get('/play', function(req, res) {
   word = gameController.getDailyWord();
 
-  res.render('game', { word: word });
+  let userScores = [];
+  if (req.isAuthenticated()) {
+      userScores = req.user.scores || [];
+  }
+
+  res.render('game', { 
+    word: word, 
+    userScores: userScores || [] // if userScores is undefined, use an empty array
+  });
+  
 });
 
 // Random game

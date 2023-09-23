@@ -5,11 +5,17 @@ let generatedWord;
 let gameBoardArray = [];
 let gameEnded;
 
+let scores = [];
+
 
 document.addEventListener('DOMContentLoaded', function() {
 
+    console.log(userScores)
+
+    scores = userScores;
+
     gameEnded = false;
-    
+
     generatedWord = backendWord;
     generateBoard(6, 5);
 
@@ -316,14 +322,21 @@ async function submitGuess() {
         }
 
         showResultTooltip(resultText);
-        gameEnded = true;
+        gameEnd();
 
     } else if (guesses === 6) {
         showResultTooltip(generatedWord.toUpperCase());
-        gameEnded = true;
+        gameEnd();
     } else {
         guess = "";
     }
+}
+
+function gameEnd() {
+    gameEnded = true;
+    scores.push(guesses);
+
+
 }
 
 // User interface
@@ -421,17 +434,70 @@ document.addEventListener('DOMContentLoaded', function() {
 function showResultsModal() {
     const modal = document.getElementById('modal');
     const modalContent = modal.querySelector('.modal-content');
-    
+
+    // Calculate and render stats
+    try {
+        const counts = calculateCounts(userScores);
+        console.log("Counts:", counts);
+
+        const totalGames = userScores.length;
+        renderStats(counts, totalGames);
+    } catch (err) {
+        console.error('Error rendering stats:', err);
+    }
+
     modal.style.display = 'flex'; 
     modal.classList.add('modal-bg-fade-in'); 
     modalContent.classList.add('modal-content-slide-up'); 
 }
 
-function hideModal() {
-    const modal = document.getElementById('modal');
-    const modalContent = modal.querySelector('.modal-content');
-    
-    modal.classList.remove('modal-bg-fade-in'); 
-    modalContent.classList.remove('modal-content-slide-up');
-    modal.style.display = 'none'; 
+function calculateCounts(scores) {
+    const counts = { 
+      1: 0, 
+      2: 0, 
+      3: 0, 
+      4: 0,
+      5: 0,
+      6: 0
+    };
+    scores.forEach(score => {
+      if(counts[score] !== undefined) counts[score]++;
+    });
+    return counts;
+}
+  
+function renderStats(counts, totalGames) {
+    let maxCount = 0;
+    let maxAttempt;
+
+    // Find the max count and its corresponding attempt
+    Object.keys(counts).forEach(attempt => {
+        if (counts[attempt] > maxCount) {
+            maxCount = counts[attempt];
+            maxAttempt = attempt;
+        }
+    });
+
+    Object.keys(counts).forEach(attempt => {
+        const countElem = document.getElementById(`${attempt}AttemptCountValue`);
+        const barElem = document.getElementById(`${attempt}AttemptCountBar`);
+        if (!countElem || !barElem) return;
+
+        countElem.textContent = counts[attempt];
+        const percentage = ((counts[attempt] / totalGames) * 100) || 0;
+        barElem.style.width = `${percentage}%`;
+
+        if (percentage === 0) {
+            barElem.style.minWidth = '30px';
+        } else {
+            barElem.style.minWidth = '0';
+        }
+
+        // If this is the bar with the highest count, color it green.
+        if (attempt === maxAttempt) {
+            barElem.classList.add('maxValueBar');
+        } else {
+            barElem.classList.remove('maxValueBar');
+        }
+    });
 }

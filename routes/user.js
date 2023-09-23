@@ -5,6 +5,8 @@ const { body, validationResult } = require('express-validator');
 
 const userController = require('../controllers/userController');
 
+// Sign up
+
 router.get('/signup', userController.getSignupPage);
 
 router.post('/signup',
@@ -20,6 +22,8 @@ router.post('/signup',
   ],
   userController.createUser
 );
+
+// Log in
 
 router.get('/login', (req, res) => {
   res.render('login', { errors: [] });
@@ -53,7 +57,6 @@ router.post('/login',
   }
 );
 
-
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) {
@@ -63,4 +66,16 @@ router.get("/logout", (req, res, next) => {
   });
 });
 
+
+// Stats
+// router.get('/stats', isAuthenticated, userController.getUserStats);
+
+router.get('/stats', (req, res) => {
+  if(req.isAuthenticated()) {
+  } else {
+    console.log('User is not authenticated');
+  }
+});
+
 module.exports = router;
+

@@ -235,6 +235,30 @@ svg {
 }
 
 /* Statistics Section */
+.AttemptCount {
+    width: 100%;
+    position: relative;
+    height: 20px;
+}
+
+.AttemptCount div {
+    height: 100%;
+    /* min-width: 20px; */
+
+    color: white;
+    background-color: #686868; /* This is for the background color of the bar itself */
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    font-size: small;
+}
+
+.maxValueBar {
+    background-color: rgb(106, 170, 100) !important;
+}
+
 .statsTitle {
     margin-bottom: 0.75rem;
     margin-left: 0.25rem;
