@@ -431,73 +431,85 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+
+
+
 function showResultsModal() {
     const modal = document.getElementById('modal');
     const modalContent = modal.querySelector('.modal-content');
 
-    // Calculate and render stats
     try {
-        const counts = calculateCounts(userScores);
-        console.log("Counts:", counts);
-
-        const totalGames = userScores.length;
-        renderStats(counts, totalGames);
+        const counts = calculateCounts();
+        const stats = calculateStats();
+        renderStats(counts, stats.totalGames);
+        renderAdditionalStats(stats);
     } catch (err) {
         console.error('Error rendering stats:', err);
     }
 
-    modal.style.display = 'flex'; 
-    modal.classList.add('modal-bg-fade-in'); 
-    modalContent.classList.add('modal-content-slide-up'); 
+    modal.style.display = 'flex';
+    modal.classList.add('modal-bg-fade-in');
+    modalContent.classList.add('modal-content-slide-up');
 }
 
-function calculateCounts(scores) {
-    const counts = { 
-      1: 0, 
-      2: 0, 
-      3: 0, 
-      4: 0,
-      5: 0,
-      6: 0
-    };
-    scores.forEach(score => {
-      if(counts[score] !== undefined) counts[score]++;
-    });
+function calculateCounts() {
+    const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
+    scores.forEach(score => counts[score] !== undefined && counts[score]++);
     return counts;
 }
-  
-function renderStats(counts, totalGames) {
-    let maxCount = 0;
-    let maxAttempt;
 
-    // Find the max count and its corresponding attempt
-    Object.keys(counts).forEach(attempt => {
+function calculateStats() {
+    let wins = 0;
+    let currentStreak = 0;
+    let maxStreak = 0;
+    let streakCount = 0;
+
+    scores.forEach(score => {
+        if (score !== "0") {
+            wins++;
+            streakCount++;
+            if (streakCount > maxStreak) maxStreak = streakCount;
+        } else {
+            streakCount = 0;
+        }
+    });
+
+    const winPercentage = ((wins / scores.length) * 100).toFixed(0);
+    currentStreak = streakCount;
+
+    return { winPercentage, currentStreak, maxStreak, totalGames: scores.length };
+}
+
+function renderStats(counts, totalGames) {
+    let maxAttempt;
+    let maxCount = 0;
+
+    for (const attempt in counts) {
         if (counts[attempt] > maxCount) {
             maxCount = counts[attempt];
             maxAttempt = attempt;
         }
-    });
+    }
 
-    Object.keys(counts).forEach(attempt => {
-        const countElem = document.getElementById(`${attempt}AttemptCountValue`);
-        const barElem = document.getElementById(`${attempt}AttemptCountBar`);
-        if (!countElem || !barElem) return;
+    for (const attempt in counts) {
+        updateBarAndCount(attempt, counts[attempt], totalGames, attempt === maxAttempt);
+    }
+}
 
-        countElem.textContent = counts[attempt];
-        const percentage = ((counts[attempt] / totalGames) * 100) || 0;
-        barElem.style.width = `${percentage}%`;
+function updateBarAndCount(attempt, count, totalGames, isMax) {
+    const countElem = document.getElementById(`${attempt}AttemptCountValue`);
+    const barElem = document.getElementById(`${attempt}AttemptCountBar`);
+    if (!countElem || !barElem) return;
 
-        if (percentage === 0) {
-            barElem.style.minWidth = '30px';
-        } else {
-            barElem.style.minWidth = '0';
-        }
+    countElem.textContent = count;
+    const percentage = ((count / totalGames) * 100) || 0;
+    barElem.style.width = `${percentage}%`;
+    isMax ? barElem.classList.add('maxValueBar') : barElem.classList.remove('maxValueBar');
+}
 
-        // If this is the bar with the highest count, color it green.
-        if (attempt === maxAttempt) {
-            barElem.classList.add('maxValueBar');
-        } else {
-            barElem.classList.remove('maxValueBar');
-        }
-    });
+function renderAdditionalStats(stats) {
+    document.getElementById('statsPlayedValue').textContent = stats.totalGames;
+    document.getElementById('statsWinPercentValue').textContent = `${stats.winPercentage}`;
+    document.getElementById('statsCurrentStreakValue').textContent = stats.currentStreak;
+    document.getElementById('statsMaxStreakValue').textContent = stats.maxStreak;
 }
