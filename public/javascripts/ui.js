@@ -3,9 +3,13 @@ let guess = "";
 let guesses = 0;
 let generatedWord;
 let gameBoardArray = [];
+let gameEnded;
 
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    gameEnded = false;
+    
     generatedWord = backendWord;
     generateBoard(6, 5);
 
@@ -254,6 +258,8 @@ function colourKeyboardKeys(result) {
 
 async function submitGuess() {
 
+    if (gameEnded) return;
+
     let currentRow = rows[guesses];
 
     // Check if guess length is 5
@@ -310,9 +316,11 @@ async function submitGuess() {
         }
 
         showResultTooltip(resultText);
+        gameEnded = true;
 
     } else if (guesses === 6) {
         showResultTooltip(generatedWord.toUpperCase());
+        gameEnded = true;
     } else {
         guess = "";
     }

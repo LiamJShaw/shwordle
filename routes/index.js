@@ -17,67 +17,37 @@ router.get('/', function(req, res, next) {
 
 // Daily game
 router.get('/play', function(req, res) {
-  // const today = new Date();
-  // const dateString = today.toISOString().slice(0,10); // format: YYYY-MM-DD
-  // Get today's word from array based on date from beginning
   word = gameController.getDailyWord();
 
   res.render('game', { word: word });
 });
 
-// router.get('/:word([a-zA-Z]{5})', function(req, res) {
-//   let word;
-//   if(req.params.word) {
-//       // if a word parameter is provided in the URL, decrypt it
-//       // word = decryptWord(req.params.word); 
-//       // check if the word is valid
-//       const wordValid = gameController.isWordValid(req.params.word);
+// Random game
+router.get('/random', function(req, res) {
+  word = gameController.generateRandomWord();
 
-//       console.log(wordValid);
-
-//       if (wordValid) {
-//         word = req.params.word;
-//       }
-
-//       if (!wordValid) {
-//         res.status(400).render('error', { message: 'Invalid word!' });
-//         return;
-//       }      
-
-//       // What if it isn't valid? 
-//       // Offer the error message, and the chance to play a random word?
-//   } else {
-//       // if no word parameter is provided, generate a random word
-//       // word = getRandomWord(); 
-//       word = "TESTE";
-//   }
-
-//   // res.render('game', { backendWord: word });
-// });
+  res.render('game', { word: word, practice: true }); // Practice here so that we don't count stats
+});
 
 // Custom game
 router.get('/:word([a-zA-Z]{5})', function(req, res) {
-    let word;
-    if(req.params.word) {
+  let word;
+  if(req.params.word) {
 
-      // if a word parameter is provided in the URL, decrypt it
       decryptedWord = gameController.decryptWord(req.params.word); 
-
       const wordValid = gameController.isWordValid(decryptedWord);
 
       if (wordValid) {
-        word = decryptedWord;
+          word = decryptedWord;
+      } else {
+          // Render the Invalid Word view if the word is not valid
+          res.status(400).render('invalidWord');
+          return;
       }
-
-      // If word is not valid, you must send a response here
-      if (!wordValid) {
-        res.status(400).send('Invalid Word');
-        return;
-      }
-    }
-
-    res.render('game', { word: word });
+  }
+  res.render('game', { word: word, practice: true }); 
 });
+
 
 // Word validator
 router.get('/api/isWordValid/:word', function(req, res) {

@@ -18,22 +18,19 @@ body {
     justify-content: center;
   }
   
-  /* If you want the image to be centered relative to the whole window, not its container */
-  svg {
-    text-align: center
-  }
+
   
   h1 {
     font-size: 3em;
-    font-weight: bold; /* Makes the Title Bolder */
+    font-weight: bold;
     margin-bottom: 10px;
-    color: #E0E0E0; /* Light Grey */
+    color: #E0E0E0;
   }
 
 #date {
     font-size: 1.2em;
     margin-bottom: 40px;
-    color: #BDBDBD; /* Grey */
+    color: #BDBDBD;
   }
   
 button {
@@ -51,7 +48,7 @@ button {
   }
   
 button:hover {
-    background: #385c35; /* Even Darker on Hover */
+    background: #385c35;
 }
   
 .play-button button {
@@ -69,7 +66,7 @@ button:hover {
 }
   
 a {
-    text-decoration: none; /* Removes underline from all links */
-    color: inherit; /* Inherits text color from parent element */
-    display: inline-block; /* To ensure the link wraps around your button properly */
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
 }

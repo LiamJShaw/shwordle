@@ -1,0 +1,130 @@
+/* form {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    padding: 20px;
+    background: #333333;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.308);
+
+    width: 300px;
+}
+
+label, input {
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: large;
+}
+
+input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #252525;
+    color: #ffffff;
+
+}
+
+button[type='submit'] {
+    align-self: center;
+}
+
+#container {
+    width: 300px;
+    margin: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+} */
+
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #252525;
+    color: #ffffff;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    padding-top: 5vh;
+}
+
+#container {
+    width: 300px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {font-family: 'Montserrat', sans-serif;
+    font-size: 3em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #E0E0E0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    padding: 20px;
+    background: #333333;
+    border-radius: 10px;
+    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.308);
+    width: 100%;
+}
+
+label, input {
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: large;
+}
+
+input {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #252525;
+    color: #ffffff;
+}
+
+button[type='submit'] {
+    cursor: pointer;
+    background: #6aaa64;
+    color: #ffffff;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+button[type='submit']:hover {
+    background: #385c35;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+li {
+    background: #ff6666; /* light red */
+    margin-bottom: 5px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+img {
+    max-width: 50%;
+}

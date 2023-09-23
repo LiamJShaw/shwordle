@@ -11,7 +11,9 @@ exports.getSignupPage = (req, res) => {
   };
   
   exports.createUser = async (req, res, next) => {
+    console.log('Inside createUser method'); // Log to see if method is entered
     const errors = validationResult(req);
+    console.log('Validation Result: ', errors.array()); // Log validation results
     if (!errors.isEmpty()) {
       return res.status(400).render('signup', { errors: errors.array() });
     }  
@@ -25,6 +27,7 @@ exports.getSignupPage = (req, res) => {
       await user.save();
       res.redirect('/play');
     } catch (err) {
+      console.log('Error Occurred: ', err); // Log the error object
       if (err.code === 11000) { // MongoDB duplicate key error code
         // Render the signup page with a relevant error message
         return res.status(400).render('signup', {

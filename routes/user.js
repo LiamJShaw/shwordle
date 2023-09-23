@@ -21,14 +21,38 @@ router.post('/signup',
   userController.createUser
 );
 
-router.get('/login', userController.getLoginPage);
+router.get('/login', (req, res) => {
+  res.render('login', { errors: [] });
+});
 
 router.post('/login',
-  passport.authenticate('local', { failureRedirect: '/user/login' }),
-  (req, res) => {
-    res.redirect('/play');
+  [
+    body('username').notEmpty().withMessage('Username is required'),
+    body('password').notEmpty().withMessage('Password is required')
+  ],
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // If there are errors, re-render the login page with error messages.
+      return res.status(422).render('login', { errors: errors.array() });
+    }
+    next();
+  },
+  (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
+      if (err) return next(err); // handle internal server error
+      if (!user) {
+        // Authentication failed
+        return res.status(401).render('login', { errors: [{ msg: 'Invalid username or password' }] });
+      }
+      req.logIn(user, (err) => {
+        if (err) return next(err); // handle internal server error
+        return res.redirect('/play'); // Successfully authenticated
+      });
+    })(req, res, next);
   }
 );
+
 
 router.get("/logout", (req, res, next) => {
   req.logout((err) => {

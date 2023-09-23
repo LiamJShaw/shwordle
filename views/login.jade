@@ -3,18 +3,22 @@ html
   head
     title Log In
     link(rel="stylesheet", href="/stylesheets/landing.css")
+    link(rel="stylesheet", href="/stylesheets/login.css")
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap', rel='stylesheet')
   body
     div#container
+      img(src="/images/wordle-icon.png")
       h1 Log In
+      if errors
+        ul
+          each error in errors
+            li= error.msg
       form(action='/user/login', method='post')
         label(for='username') Username: 
         input(type='text', name='username', id='username')
-        
         br
-
         label(for='password') Password: 
         input(type='password', name='password', id='password')
-
         br
-
         button(type='submit') Log in
