@@ -61,8 +61,6 @@ keyboard.addEventListener("click", handleMouseClick);
 
 function handleMouseClick(e) {
 
-    console.log(e.target);
-
     if (e.target.matches("[data-enter]")) {
         submitGuess();
     }
@@ -121,6 +119,9 @@ window.addEventListener('keyup', function (e) {
 });
 
 function pressKey(key) {
+
+    if (gameEnded) return; // Stop the user from continuing to play after winning
+
     if (guess.length < 5) {
         guess += key;
         updateDisplay();
@@ -354,6 +355,8 @@ async function submitGuess() {
 
 function gameEnd() {
     gameEnded = true;
+    guess = "";
+
     scores.push(guesses);
 
     // TODO fire off the DB update with new score here
@@ -362,14 +365,9 @@ function gameEnd() {
 
 // User interface
 function applyJumpAnimation(row) {
-
-    console.log(row);
     
     const squares = row.querySelectorAll('.square');
     let delay = 0; // initial delay
-
-    console.log(squares); // To ensure that letters are being selected correctly
-
 
     squares.forEach(square => {
         setTimeout(() => {
@@ -616,8 +614,6 @@ function shareResult() {
 
     // Convert boardArray to emojis
     let gameBoardExport = "";
-
-    console.log(gameBoardArray);
 
     gameBoardArray.forEach(row => {
         let newRow = row.map(cell => {
