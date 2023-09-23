@@ -23,8 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const statsButton = document.querySelector(".statsButton");
     statsButton.addEventListener("click", showResultsModal);
 
-});
+    const customChallengeButton = document.querySelector(".customChallengeButton");
+    customChallengeButton.addEventListener("click", () => console.log("Custom challenge pending"));
 
+});
 
 // Inputs
 
@@ -112,8 +114,6 @@ window.addEventListener('keyup', function (e) {
     }
 });
 
-
-
 function pressKey(key) {
     if (guess.length < 5) {
         guess += key;
@@ -125,6 +125,15 @@ function deleteChar() {
     guess = guess.slice(0, -1);
     updateDisplay();
 }
+
+function resetKeyboard() {
+    const keys = document.querySelectorAll(".key");
+
+    keys.forEach(key => {
+        key.style.backgroundColor = '#939598';
+    })
+}
+
 
 function updateDisplay() {
     let currentRow = rows[guesses].childNodes;
@@ -480,7 +489,8 @@ function calculateStats() {
     let currentStreak = 0;
     let maxStreak = 0;
     let streakCount = 0;
-
+    const totalGames = scores.length;
+    
     scores.forEach(score => {
         if (score !== "0") {
             wins++;
@@ -491,10 +501,10 @@ function calculateStats() {
         }
     });
 
-    const winPercentage = ((wins / scores.length) * 100).toFixed(0);
+    const winPercentage = totalGames > 0 ? ((wins / totalGames) * 100).toFixed(0) : 0;
     currentStreak = streakCount;
 
-    return { winPercentage, currentStreak, maxStreak, totalGames: scores.length };
+    return { winPercentage, currentStreak, maxStreak, totalGames };
 }
 
 function renderStats(counts, totalGames) {
@@ -569,4 +579,26 @@ function shareResult() {
     shareString += shareLink;
 
     return shareString;
+}
+
+const helpButton = document.querySelector(".helpButton");
+helpButton.addEventListener("click", showHelpModal);
+
+// Help modal
+function showHelpModal() {
+    const helpModal = document.getElementById('helpModal');
+    const contentModal = helpModal.querySelector('.content-modal');
+
+    helpModal.style.display = 'flex';
+    helpModal.classList.add('modal-bg-fade-in');
+    contentModal.classList.add('modal-content-slide-up');
+}
+
+function hideHelpModal() {
+    const helpModal = document.getElementById('helpModal');
+    const contentModal = helpModal.querySelector('.content-modal');
+
+    helpModal.style.display = 'none';
+    helpModal.classList.remove('modal-bg-fade-in');
+    contentModal.classList.remove('modal-content-slide-up');
 }

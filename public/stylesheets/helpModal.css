@@ -1,0 +1,113 @@
+.modal-help {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5); /* Background overlay */
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+}
+
+.content-modal {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.header-modal {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+button#closeButtonHelp {
+    background: none;
+    border: none;
+    font-size: 20px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+}
+
+h2.heading {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+h3.subheading {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #777;
+}
+
+.instructions {
+    text-align: left;
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+.instructions li {
+    margin-bottom: 10px;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+td {
+    width: 20%;
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.green-bg {
+    background-color: #00ff00; /* Change to your green color */
+}
+
+.yellow-bg {
+    background-color: #ffff00; /* Change to your yellow color */
+}
+
+.grey-bg {
+    background-color: #cccccc; /* Change to your grey color */
+}
+
+/* Animations */
+
+/* Modal Background Fade In Animation */
+@keyframes modalBgFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-bg-fade-in {
+    animation: modalBgFadeIn 0.2s ease-out forwards;
+}
+
+/* Modal Content Slide Up Animation */
+@keyframes modalContentSlideUp {
+    from {
+        transform: translateY(5%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.modal-content-slide-up {
+    animation: modalContentSlideUp 0.3s ease-out forwards;
+}

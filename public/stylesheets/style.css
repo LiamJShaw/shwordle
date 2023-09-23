@@ -3,7 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     
     color: white;
 }
@@ -166,10 +166,6 @@ h1 {
     background-color: rgb(54, 54, 54);
 }
 
-svg {
-    pointer-events: none;
-}
-
 .customChallengeText {
     text-align: center;
     margin: 1rem;
@@ -182,12 +178,11 @@ svg {
 
     background-color: #ffffff;
     color: black;
-    font-weight: 800;
+    font-weight: 700;
 
     border-radius: 10px;
     padding: 10px 20px;
     display: none;
-    /* additional styles as needed */
 }
 
 /* Result modal */
@@ -215,7 +210,6 @@ svg {
     display: flex;
     flex-direction: column;
 }
-  
 
 .modal-header {
     display: flex;
@@ -328,12 +322,8 @@ svg {
     cursor: pointer;
 }
 
-.modal-footer button:hover {
-    background: #666;
-}
-
 hr {
-    color:#939598;
+    border: 1px solid #989393;
 }
 
 

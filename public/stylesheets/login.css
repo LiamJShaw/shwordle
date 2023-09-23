@@ -64,7 +64,8 @@ body {
     justify-content: center;
 }
 
-h1 {font-family: 'Montserrat', sans-serif;
+h1 {
+    font-family: 'Montserrat', sans-serif;
     font-size: 3em;
     font-weight: bold;
     margin-bottom: 10px;
