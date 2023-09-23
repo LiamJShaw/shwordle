@@ -267,7 +267,7 @@ function colourGameboardSquares(result) {
                         square.style.backgroundColor = '#86888a';
                     }
                 }, 40);
-            }, i * 600);
+            }, i * 500); // was 600
         }
     });
 }
@@ -317,6 +317,8 @@ async function submitGuess() {
 
     // If result is all green
     if (result.every(color => color === "green")) {
+
+        applyJumpAnimation(currentRow);
         
         switch(guesses) {
             case 1: 
@@ -359,6 +361,27 @@ function gameEnd() {
 }
 
 // User interface
+function applyJumpAnimation(row) {
+
+    console.log(row);
+    
+    const squares = row.querySelectorAll('.square');
+    let delay = 0; // initial delay
+
+    console.log(squares); // To ensure that letters are being selected correctly
+
+
+    squares.forEach(square => {
+        setTimeout(() => {
+            square.classList.add('jump');
+            square.addEventListener('animationend', () => {
+                square.classList.remove('jump');
+            }, { once: true });
+        }, delay);
+        delay += 100; // delay for next square
+    });
+}
+
 function colourKey(key, colour) {
 
     let green = "#6aaa64"; 
@@ -517,10 +540,22 @@ function showResultsModal() {
 }
 
 function showHelpModal() {
-    const helpModalContent = document.querySelector("#helpModalContent")
+    const helpModalContent = document.querySelector("#helpModalContent");
     helpModalContent.style.display = 'block';
+    
     showModal();
+
+    const tilesToAnimate = document.querySelectorAll('.animate');
+
+    tilesToAnimate.forEach(tile => {
+        tile.classList.add('flip-animate-instant');
+        tile.addEventListener('animationend', function() {
+            tile.classList.remove('flip-animate-instant');
+            tile.classList.add('flip-animate-slow');
+        }, { once: true });
+    });
 }
+
 
 function showSettingsModal() {
     showModal();

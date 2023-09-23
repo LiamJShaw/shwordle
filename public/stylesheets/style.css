@@ -335,6 +335,14 @@ hr {
     justify-content: space-between;
 }
 
+/* Hidden sections within modal */
+#helpModalContent,
+#resultsModalContent,
+#settingsModalContent {
+    display: none;
+}
+
+
 /* Results Modal */
 
 .results-footer {
@@ -392,14 +400,6 @@ p {
 .letter.absent {
     background-color: #86888a;
     border-style: none;
-}
-
-
-/* Hidden sections within modal */
-#helpModalContent,
-#resultsModalContent,
-#settingsModalContent {
-    display: none;
 }
 
 
@@ -482,7 +482,25 @@ p {
     }
 }
 
+/* Errors like too short or invalid word */
 .jiggle-animation {
     animation: jiggle 0.2s linear;
 }
 
+/* Win */
+@keyframes jump {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(-10px); /* Adjust for the height of the jump */
+    }
+    70% {
+      transform: translateY(5px); /* Adjust for the bounce effect */
+    }
+  }
+  
+  .square.jump {
+    animation: jump 0.5s ease-in-out;
+  }
+  
