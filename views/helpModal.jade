@@ -1,15 +1,16 @@
 head
-    <link rel="stylesheet" href="path-to-your-css/helpModal.css">
+    <link rel="stylesheet" href="/stylesheets/helpModal.css">
 
-#helpModal.modal.modal-help
-    .content-modal
-        .header-modal
+#helpModal.modal.common-modal
+    .modal-content.common-modal-content
+        .modal-header.common-modal-header
             button#closeButtonHelp X
-        h2.heading How To Play
-        h3.subheading Guess the Wordle in 6 tries.
-        section.help-section
-            ul.instructions
-                li Each guess must be a valid 5-letter word.
+        .modal-body.common-modal-body
+            h2.heading How To Play
+            h3.subheading Guess the Wordle in 6 tries.
+            section.help-section
+                ul.instructions
+                    li Each guess must be a valid 5-letter word.
                 li The color of the tiles will change to show how close your guess was to the word.
             table
                 tr
@@ -32,3 +33,59 @@ head
                     td G
                     td.grey-bg U
                     td E
+
+#modal.modal.common-modal
+    .modal-content.common-modal-content
+        .modal-header.common-modal-header
+            button#closeButton X
+        .modal-body.common-modal-body
+            h4.statsTitle STATISTICS
+            ul#statsModule
+                li#statsPlayed 
+                    div#statsPlayedValue.statsValue 1
+                    div.statsLabel Played
+                li#statsWinPercent
+                    div#statsWinPercentValue.statsValue 100%
+                    div.statsLabel Win %
+                li#statsCurrentStreak 
+                    div#statsCurrentStreakValue.statsValue 1
+                    div.statsLabel Current Streak
+                li#statsMaxStreak 
+                    div#statsMaxStreakValue.statsValue 1
+                    div.statsLabel Max Streak
+
+            h4.statsTitle GUESS DISTRIBUTION
+            ul#guessDistribution
+                li#1AttemptCount
+                    p 1
+                    div.AttemptCount
+                        div#1AttemptCountBar
+                            p#1AttemptCountValue 0
+                li#2AttemptCount
+                    p 2
+                    div.AttemptCount                    
+                        div#2AttemptCountBar
+                            p#2AttemptCountValue 0
+                li#3AttemptCount
+                    p 3
+                    div.AttemptCount
+                        div#3AttemptCountBar
+                            p#3AttemptCountValue 0
+                li#4AttemptCount
+                    p 4
+                    div.AttemptCount
+                        div#4AttemptCountBar
+                            p#4AttemptCountValue 0
+                li#5AttemptCount
+                    p 5
+                    div.AttemptCount
+                        div#5AttemptCountBar
+                            p#5AttemptCountValue 0
+                li#6AttemptCount
+                    p 6
+                    div.AttemptCount
+                        div#6AttemptCountBar
+                            p#6AttemptCountValue 0       
+        .modal-footer
+            hr
+            button#shareButton Share Result

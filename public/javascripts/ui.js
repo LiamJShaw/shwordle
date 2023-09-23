@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const statsButton = document.querySelector(".statsButton");
     statsButton.addEventListener("click", showResultsModal);
 
+    const helpButton = document.querySelector(".helpButton");
+    helpButton.addEventListener("click", showHelpModal);
+
     const customChallengeButton = document.querySelector(".customChallengeButton");
     customChallengeButton.addEventListener("click", () => console.log("Custom challenge pending"));
 
@@ -57,6 +60,9 @@ const keyboard = document.querySelector(".keyboard");
 keyboard.addEventListener("click", handleMouseClick);
 
 function handleMouseClick(e) {
+
+    console.log(e.target);
+
     if (e.target.matches("[data-enter]")) {
         submitGuess();
     }
@@ -348,6 +354,7 @@ function gameEnd() {
     gameEnded = true;
     scores.push(guesses);
 
+    // TODO fire off the DB update with new score here
 
 }
 
@@ -418,66 +425,7 @@ function applyJiggleAnimation(row) {
     }, { once: true });
 }
 
-
-// Results Modal
-document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('modal');
-    const modalContent = document.querySelector('.modal-content');
-    const closeButton = document.getElementById('closeButton');
-    const shareButton = document.getElementById('shareButton');
-
-    // Close modal on close button click
-    closeButton.addEventListener('click', function() {
-        modal.style.display = 'none';
-    });
-
-    // Close modal on outside click
-    window.addEventListener('click', function(event) {
-        if(event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
-
-    // Event listener for share button
-    shareButton.addEventListener('click', function () {
-        let resultString = shareResult();
-
-        console.log(resultString);
-            
-        // Copy to clipboard
-        navigator.clipboard.writeText(resultString);
-        // modalMessage.textContent = "Copied to clipboard"
-    });
-});
-
-
 // Stats
-
-function showResultsModal() {
-    const modal = document.getElementById('modal');
-    const modalContent = modal.querySelector('.modal-content');
-    const modalFooter = modalContent.querySelector(".modal-footer");
-
-    if (gameEnded) {
-        modalFooter.style.display = 'block';
-    } else {
-        modalFooter.style.display = 'none';
-    }
-
-    try {
-        const counts = calculateCounts();
-        const stats = calculateStats();
-        renderStats(counts, stats.totalGames);
-        renderAdditionalStats(stats);
-    } catch (err) {
-        console.error('Error rendering stats:', err);
-    }
-
-    modal.style.display = 'flex';
-    modal.classList.add('modal-bg-fade-in');
-    modalContent.classList.add('modal-content-slide-up');
-}
-
 function calculateCounts() {
     const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
     scores.forEach(score => counts[score] !== undefined && counts[score]++);
@@ -542,6 +490,92 @@ function renderAdditionalStats(stats) {
 }
 
 
+
+// Modals
+function showResultsModal() {
+    const resultsModalContent = document.querySelector("#resultsModalContent")
+
+    const resultsFooter = document.querySelector('.results-footer');
+
+    if (gameEnded) {
+        resultsFooter.style.display = 'block';
+    } else {
+        resultsFooter.style.display = 'none';
+    }
+
+    try {
+        const counts = calculateCounts();
+        const stats = calculateStats();
+        renderStats(counts, stats.totalGames);
+        renderAdditionalStats(stats);
+    } catch (err) {
+        console.error('Error rendering stats:', err);
+    }
+
+    resultsModalContent.style.display = 'block';
+    showModal();
+}
+
+function showHelpModal() {
+    const helpModalContent = document.querySelector("#helpModalContent")
+    helpModalContent.style.display = 'block';
+    showModal();
+}
+
+function showSettingsModal() {
+    showModal();
+}
+
+function showModal() {
+    const modal = document.getElementById('modal');
+    const modalContent = modal.querySelector('.content');
+
+    modal.style.display = 'flex';
+    modal.classList.add('modal-bg-fade-in');
+    modalContent.classList.add('modal-content-slide-up');
+}
+
+function hideModal() {
+    const modal = document.getElementById('modal');
+
+    const resultsModalContent = document.querySelector("#resultsModalContent")
+    const helpModalContent = document.querySelector("#helpModalContent")
+
+    resultsModalContent.style.display = 'none';
+    helpModalContent.style.display = 'none';
+
+    modal.style.display = 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('modal');
+    const closeButton = modal.querySelector('.header button');
+
+    // Close modal on close button click
+    closeButton.addEventListener('click', hideModal);
+
+    // Close modal on outside click
+    window.addEventListener('click', function(event) {
+        if(event.target === modal) {
+            hideModal();
+        }
+    });
+
+    const shareButton = document.getElementById('shareButton');
+
+    // Event listener for share button
+    shareButton.addEventListener('click', function () {
+        let resultString = shareResult();
+
+        console.log(resultString);
+            
+        // Copy to clipboard
+        navigator.clipboard.writeText(resultString);
+        // modalMessage.textContent = "Copied to clipboard"
+    });
+});
+
+
 // Share results
 function shareResult() {
 
@@ -579,26 +613,4 @@ function shareResult() {
     shareString += shareLink;
 
     return shareString;
-}
-
-const helpButton = document.querySelector(".helpButton");
-helpButton.addEventListener("click", showHelpModal);
-
-// Help modal
-function showHelpModal() {
-    const helpModal = document.getElementById('helpModal');
-    const contentModal = helpModal.querySelector('.content-modal');
-
-    helpModal.style.display = 'flex';
-    helpModal.classList.add('modal-bg-fade-in');
-    contentModal.classList.add('modal-content-slide-up');
-}
-
-function hideHelpModal() {
-    const helpModal = document.getElementById('helpModal');
-    const contentModal = helpModal.querySelector('.content-modal');
-
-    helpModal.style.display = 'none';
-    helpModal.classList.remove('modal-bg-fade-in');
-    contentModal.classList.remove('modal-content-slide-up');
 }

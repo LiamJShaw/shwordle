@@ -166,6 +166,11 @@ h1 {
     background-color: rgb(54, 54, 54);
 }
 
+button svg {
+    pointer-events: none;
+}
+
+
 .customChallengeText {
     text-align: center;
     margin: 1rem;
@@ -185,48 +190,6 @@ h1 {
     display: none;
 }
 
-/* Result modal */
-.modal {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-  }
-  
-
-.modal-content {
-    width: 90%;
-    max-width: 500px;
-    background: #121212;
-    color: #fff;
-    padding: 16px;
-    border-radius: 8px;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.modal-footer {
-    text-align: center;
-}
-
-.modal-body {
-    padding: 2rem;
-    
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
 
 /* Statistics Section */
 .AttemptCount {
@@ -301,13 +264,6 @@ h1 {
     height: 20px;
   }
 
-#closeButton {
-    color: #ffffff;
-    background: #00000000;
-    font-size: large;
-    font-weight: 900;
-}
-
 #shareButton {
     font-size: large;
     font-weight: bold;
@@ -324,6 +280,126 @@ h1 {
 
 hr {
     border: 1px solid #989393;
+}
+
+
+
+/* Close Modal Button */
+#modal .header button {
+    color: #ffffff;
+    background: transparent;
+    font-size: large;
+    font-weight: 900;
+    cursor: pointer;
+    border: none;
+}
+
+/* Modal */
+#modal {
+    display: none; /* Changed from none to flex to center the child content */
+    align-items: center;
+    justify-content: center;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Content */
+#modal .content {
+    width: 90%;
+    max-width: 500px;
+    background: #121212;
+    color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Modal Header */
+#modal .header {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Modal Body */
+#modal .body {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Results Modal */
+
+.results-footer {
+    text-align: center;
+}
+
+/* Help Modal */
+h3, h4 {
+    margin-bottom: 1em;
+}
+
+p {
+    margin-bottom: 1em;
+}
+
+.word-example {
+    margin-bottom: 2em;
+}
+
+.word {
+    display: flex;
+}
+
+.letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2em;
+    height: 2em;
+    border: 1px solid #000;
+    margin-right: 0.5em;
+    font-weight: bold;
+    
+    color: #ffffff;
+    background-color: #0f0f0f;
+    border-style: solid;
+    border-color: #49494993;
+
+    margin: 0 0.25em 10px 0.25em;
+
+    font-weight: bold;
+    font-size: large;
+}
+
+.letter.correct {
+    background-color: #6aaa64;
+    border-style: none;
+}
+
+.letter.wrongplace {
+    background-color: #c9b458;
+    border-style: none;
+}
+
+.letter.absent {
+    background-color: #86888a;
+    border-style: none;
+}
+
+
+/* Hidden sections within modal */
+#helpModalContent,
+#resultsModalContent,
+#settingsModalContent {
+    display: none;
 }
 
 
