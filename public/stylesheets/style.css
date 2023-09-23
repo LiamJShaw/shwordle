@@ -50,10 +50,10 @@ h1 {
     gap: 1rem;
 }
 
-.help,
-.settings,
-.stats,
-.customChallenge {
+.helpButton,
+.settingsButton,
+.statsButton,
+.customChallengeButton {
     border-style: none;
 
     font-weight: 900;

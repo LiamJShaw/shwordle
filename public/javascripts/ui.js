@@ -10,6 +10,7 @@ let scores = [];
 
 document.addEventListener('DOMContentLoaded', function() {
 
+    console.log(backendWord);
     console.log(userScores)
 
     scores = userScores;
@@ -19,7 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     generatedWord = backendWord;
     generateBoard(6, 5);
 
-    console.log(backendWord);
+    const statsButton = document.querySelector(".statsButton");
+    statsButton.addEventListener("click", showResultsModal);
+
 });
 
 
@@ -406,6 +409,7 @@ function applyJiggleAnimation(row) {
     }, { once: true });
 }
 
+
 // Results Modal
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('modal');
@@ -427,16 +431,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener for share button
     shareButton.addEventListener('click', function () {
-        console.log("Share button clicked");
+        let resultString = shareResult();
+
+        console.log(resultString);
+            
+        // Copy to clipboard
+        navigator.clipboard.writeText(resultString);
+        // modalMessage.textContent = "Copied to clipboard"
     });
 });
 
 
-
+// Stats
 
 function showResultsModal() {
     const modal = document.getElementById('modal');
     const modalContent = modal.querySelector('.modal-content');
+    const modalFooter = modalContent.querySelector(".modal-footer");
+
+    if (gameEnded) {
+        modalFooter.style.display = 'block';
+    } else {
+        modalFooter.style.display = 'none';
+    }
 
     try {
         const counts = calculateCounts();
@@ -512,4 +529,44 @@ function renderAdditionalStats(stats) {
     document.getElementById('statsWinPercentValue').textContent = `${stats.winPercentage}`;
     document.getElementById('statsCurrentStreakValue').textContent = stats.currentStreak;
     document.getElementById('statsMaxStreakValue').textContent = stats.maxStreak;
+}
+
+
+// Share results
+function shareResult() {
+
+    // Convert boardArray to emojis
+    let gameBoardExport = "";
+
+    console.log(gameBoardArray);
+
+    gameBoardArray.forEach(row => {
+        let newRow = row.map(cell => {
+            if(cell === "grey") return "⬛";
+            if(cell === "yellow") return "🟨";
+            if(cell === "green") return "🟩";
+        }).join(''); // Join each modified 'cell' of a 'row' into a string
+
+        gameBoardExport += newRow; // Append each 'row' string to 'gameBoardExport'
+        gameBoardExport += '\n'; // Append a newline character after each 'row'
+    });
+
+    // Generate share link
+    // let shareLink = "https://liamjshaw.github.io/shwordle/#";
+    let shareLink = `${window.location}`;
+
+    // Will need an endpoint for word encryption, or do it locally here
+    // shareLink += encryptWord(generatedWord);
+
+
+    // Compose share string
+    let shareString = "Shwordle | "
+    shareString += guesses 
+    shareString += "/6";
+    shareString += "\n\n";
+    shareString += gameBoardExport;
+    shareString += "\n";
+    shareString += shareLink;
+
+    return shareString;
 }
