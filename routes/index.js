@@ -51,7 +51,22 @@ router.get('/play', function(req, res) {
 router.get('/random', function(req, res) {
   word = gameController.generateRandomWord();
 
-  res.render('game', { word: word, practice: true }); // Practice here so that we don't count stats
+  console.log(word);
+
+  let userScores = [];
+  let userName;
+
+  if (req.isAuthenticated()) {
+      userScores = req.user.scores;
+      userName = req.user.username;
+  }
+
+  res.render('game', { 
+    word: word, 
+    userScores: userScores || [],
+    userName: userName || null
+  });
+  
 });
 
 // Custom game
@@ -70,7 +85,21 @@ router.get('/:word([a-zA-Z]{5})', function(req, res) {
           return;
       }
   }
-  res.render('game', { word: word, practice: true }); 
+
+  let userScores = [];
+  let userName;
+
+  if (req.isAuthenticated()) {
+      userScores = req.user.scores;
+      userName = req.user.username;
+  }
+  
+  res.render('game', { 
+    word: word, 
+    userScores: userScores || [],
+    userName: userName || null
+  });
+   
 });
 
 

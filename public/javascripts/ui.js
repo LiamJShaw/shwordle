@@ -4,9 +4,21 @@ let guesses = 0;
 let generatedWord;
 let gameBoardArray = [];
 let gameEnded;
+let customChallenge = false;
 
 let scores = [];
 
+function newGame() {
+
+    gameBoard.textContent = "";
+
+    customChallenge = false;
+    gameEnded = false;
+    guess = "";
+    guesses = 0;
+
+    generateBoard(6, 5);
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -24,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     gameEnded = false;
 
     generatedWord = backendWord;
-    generateBoard(6, 5);
+    newGame();
 
     const statsButton = document.querySelector(".statsButton");
     statsButton.addEventListener("click", showResultsModal);
@@ -36,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
     settingsButton.addEventListener("click", showSettingsModal);
 
     const customChallengeButton = document.querySelector(".customChallengeButton");
-    customChallengeButton.addEventListener("click", () => console.log("Custom challenge pending"));
+    customChallengeButton.addEventListener("click", customChallengeMode);
 
 });
 
@@ -56,7 +68,13 @@ document.addEventListener('keydown', (event) => {
     }
 
     if (key === "Enter") {
-        submitGuess();
+
+        if (customChallenge) {
+            generateLink();
+            console.log("guess after generateLink", guess);
+        } else {
+            submitGuess();
+        }
     }
 
     if (key === "Backspace") {
@@ -71,7 +89,11 @@ keyboard.addEventListener("click", handleMouseClick);
 function handleMouseClick(e) {
 
     if (e.target.matches("[data-enter]")) {
-        submitGuess();
+        if (customChallenge) {
+            generateLink();
+        } else {
+            submitGuess();
+        }
     }
 
     if (e.target.matches("[data-key]")) {
@@ -79,7 +101,7 @@ function handleMouseClick(e) {
         keyElement.classList.add('grey-out');
         setTimeout(() => {
             keyElement.classList.remove('grey-out');
-        }, 100); // 100ms or adjust as needed
+        }, 100);
         pressKey(keyElement.dataset.key);
     }
 
@@ -106,7 +128,7 @@ window.addEventListener('keydown', function (e) {
         button.classList.add('grey-out');
         setTimeout(() => {
             button.classList.remove('grey-out');
-        }, 100); // 100ms or adjust as needed
+        }, 100);
     }
 });
 
@@ -152,6 +174,7 @@ function resetKeyboard() {
 
 
 function updateDisplay() {
+
     let currentRow = rows[guesses].childNodes;
 
     for (let i = 0; i < 5; i++) {
@@ -276,7 +299,7 @@ function colourGameboardSquares(result) {
                         square.style.backgroundColor = '#86888a';
                     }
                 }, 40);
-            }, i * 500); // was 600
+            }, i * 500);
         }
     });
 }
@@ -688,4 +711,113 @@ function shareResult() {
     shareString += shareLink;
 
     return shareString;
+}
+
+
+// Custom challenge
+let userMessage;
+
+async function generateLink() {
+
+    // This is a workaround for the way guess is normally cleared
+    // I've tried to do the custom challenge "in engine" so to speak
+    // It's more work than it's worth to change that behaviour just for this
+    let customWord = guess;
+
+    try {
+        const isValid = await isWordValid(customWord);
+
+        if (isValid) {
+            let row = document.querySelector(".row");
+            let squares = row.querySelectorAll(".square");
+
+            for (let i = 0; i < 5; i++) {
+                squares[i].textContent = customWord[i];
+                squares[i].style.backgroundColor = '#6aaa64';
+                squares[i].style.borderStyle = "none";
+            }
+
+        const alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m',
+                          'n','o','p','q','r','s','t','u','v','w','x','y','z'];
+
+        let encrypted = "/";
+        
+        encrypted += alphabet[(alphabet.indexOf(customWord[0]) + 14) % 26];
+        encrypted += alphabet[(alphabet.indexOf(customWord[1]) + 15) % 26];
+        encrypted += alphabet[(alphabet.indexOf(customWord[2]) + 16) % 26];
+        encrypted += alphabet[(alphabet.indexOf(customWord[3]) + 17) % 26];
+        encrypted += alphabet[(alphabet.indexOf(customWord[4]) + 18) % 26];
+
+        // Generate share link
+        let shareLink = window.location.host;
+        shareLink += encrypted;
+
+        console.log("Share link:", shareLink);
+
+        // Copy share link to keyboard
+        navigator.clipboard.writeText(shareLink);
+
+        let countdownValue = 5;
+        userMessage.textContent = "Share link copied to clipboard!";
+
+        const countdownInterval = setInterval(() => {
+            userMessage.innerHTML = `Share link copied to clipboard!<br><br>Redirecting to home in ${countdownValue} seconds...`;
+            countdownValue--;
+        
+            if (countdownValue < 0) {
+                clearInterval(countdownInterval);
+                window.location.href = "/"; // Redirect to home
+            }
+        }, 1000); 
+        
+        } else {
+            userMessage.textContent = "Enter a valid word!";
+            console.log("Enter a valid word!");
+        }
+    } catch (error) {
+        console.error("Error validating word", error);
+    }
+
+ 
+}
+
+function resetKeyboard() {
+    const keys = document.querySelectorAll(".key");
+
+    keys.forEach(key => {
+        key.style.backgroundColor = 'grey';
+    })
+}
+
+function customChallengeMode() {
+
+    customChallenge = true;
+
+    guesses = 0;
+    guess = "";
+    gameBoardArray = []
+    resetKeyboard();
+
+    // Clear gameboard
+    gameBoard.textContent = ''
+
+    const customChallengeTitle = document.createElement("h2");
+    customChallengeTitle.classList.add('customChallengeText');
+    customChallengeTitle.textContent = "Custom Challenge";
+
+    gameBoard.appendChild(customChallengeTitle);
+
+    const customChallengeText = document.createElement("p");
+    customChallengeText.classList.add('customChallengeText');
+    customChallengeText.innerHTML = `Type a valid word and press Enter<br><br>A link will be copied to your clipboard which you can share for a custom challenge!`
+
+    gameBoard.appendChild(customChallengeText);
+
+    generateRows(1);
+    generateColumns(1, 5);
+
+    userMessage = document.createElement("h4");
+    userMessage.classList.add('customChallengeText');
+
+    gameBoard.appendChild(userMessage);
 }

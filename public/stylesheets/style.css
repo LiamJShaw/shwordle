@@ -171,12 +171,6 @@ button svg {
 }
 
 
-.customChallengeText {
-    text-align: center;
-    margin: 1rem;
-    padding: 1rem;
-}
-
 /* Result tooltip */
 #tooltip {
     position: absolute;
@@ -351,7 +345,7 @@ hr {
 
 /* Help Modal */
 h2, h3 {
-    margin-bottom: 1em;
+    /* margin-bottom: 1em; */
 }
 
 p {
@@ -505,6 +499,11 @@ input:checked + .slider:before {
 }
 
 
+/* Custom challenge */
+.customChallengeText {
+    text-align: center;
+    padding: 1rem;
+}
 
 
 

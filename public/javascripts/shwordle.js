@@ -52,11 +52,8 @@ let generatedWord;
 
 function newGame(){
 
-    // This re-adds the Enter button that submits a guess
-    // due to challenge issue mode needing a different function
-    enterButton.removeEventListener("click", generateLink);
-    enterButton.addEventListener("click", submitGuess);
-
+    customChallenge = false;
+    
     // Clear everything from previous games
     guess = "";
     gameBoardArray = []
