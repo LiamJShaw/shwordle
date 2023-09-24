@@ -3,10 +3,10 @@ const router = express.Router();
 const passport = require('passport');
 const { body, validationResult } = require('express-validator');
 
+const User = require('../models/user');
 const userController = require('../controllers/userController');
 
 // Sign up
-
 router.get('/signup', userController.getSignupPage);
 
 router.post('/signup',
@@ -23,8 +23,8 @@ router.post('/signup',
   userController.createUser
 );
 
-// Log in
 
+// Log in
 router.get('/login', (req, res) => {
   res.render('login', { errors: [] });
 });
@@ -51,13 +51,13 @@ router.post('/login',
       }
       req.logIn(user, (err) => {
         if (err) return next(err); // handle internal server error
-        return res.redirect('/play'); // Successfully authenticated
+        return res.redirect('/'); // Successfully authenticated
       });
     })(req, res, next);
   }
 );
 
-router.get("/logout", (req, res, next) => {
+router.post("/logout", (req, res, next) => {
   req.logout((err) => {
     if (err) {
       return next(err);
@@ -68,14 +68,33 @@ router.get("/logout", (req, res, next) => {
 
 
 // Stats
-// router.get('/stats', isAuthenticated, userController.getUserStats);
+router.post('/update-score', async (req, res) => {
+  try {
+    const { username, score } = req.body;
 
-router.get('/stats', (req, res) => {
-  if(req.isAuthenticated()) {
-  } else {
-    console.log('User is not authenticated');
+    if (!username || score == null) {
+      return res.status(400).json({ error: 'Username and score are required. Please log in.' });
+    }
+
+    console.log('Updating user:', username, 'with score:', score);
+
+    const updatedUser = await User.findOneAndUpdate(
+      { username: username },
+      { $push: { scores: score } },
+      { new: true, useFindAndModify: false }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.json(updatedUser); // Send the updated user document as a response
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error', message: error.message });
   }
 });
 
+
 module.exports = router;
+
 

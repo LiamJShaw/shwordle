@@ -12,20 +12,37 @@ const pageDate = today.toLocaleDateString('en-US',
 
 // Landing page
 router.get('/', function(req, res, next) {
-  res.render('index', { title: `SHWORDLE | ${titleDate}`, date: pageDate });
+  console.log('Rendering index');
+  try {
+    res.render('index', { title: `SHWORDLE | ${titleDate}`, date: pageDate, user: req.user }, (err, html) => {
+      if (err) {
+        console.error('Render Error:', err);
+        return res.status(500).send('Error rendering view');
+      }
+      res.send(html);
+    });
+  } catch (error) {
+    console.error('Error in Route:', error);
+    res.status(500).send('Internal Server Error');
+  }
 });
+
 
 router.get('/play', function(req, res) {
   word = gameController.getDailyWord();
 
   let userScores = [];
+  let userName;
+
   if (req.isAuthenticated()) {
-      userScores = req.user.scores || [];
+      userScores = req.user.scores;
+      userName = req.user.username;
   }
 
   res.render('game', { 
     word: word, 
-    userScores: userScores || [] // if userScores is undefined, use an empty array
+    userScores: userScores || [],
+    userName: userName || null
   });
   
 });

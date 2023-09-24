@@ -70,3 +70,18 @@ a {
     color: inherit;
     display: inline-block;
 }
+
+.user-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.user-container button {
+  background-color: rgb(150, 0, 0);
+}
+
+.user-container span {
+  font-weight: bold;
+}

@@ -23,7 +23,8 @@ exports.getSignupPage = (req, res) => {
         password: hashedPassword,
       });
       await user.save();
-      res.redirect('/play');
+      console.log("User saved successfully. Redirecting...");
+      res.redirect('/'); // Do I need to pass user here?
     } catch (err) {
       if (err.code === 11000) { // MongoDB duplicate key error code
         // Render the signup page with a relevant error message

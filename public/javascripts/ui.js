@@ -9,11 +9,17 @@ let scores = [];
 
 
 document.addEventListener('DOMContentLoaded', function() {
+    
+    console.log("User:", userName);
+    console.log("Scores:", userScores)
 
-    console.log(backendWord);
-    console.log(userScores)
+    // console.log("Word:", backendWord);
 
     scores = userScores;
+
+    if (userScores.length === 0) {
+        showHelpModal();
+    }
 
     gameEnded = false;
 
@@ -359,7 +365,7 @@ function gameEnd() {
 
     scores.push(guesses);
 
-    // TODO fire off the DB update with new score here
+    updateStatsOnServer();
 
 }
 
@@ -447,6 +453,25 @@ function applyJiggleAnimation(row) {
 }
 
 // Stats
+function updateStatsOnServer() {
+    fetch('/user/update-score', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({ username: userName, score: guesses }),
+    })
+    
+    .then(response => {
+        if (!response.ok) {
+          return response.json().then(err => { throw err; });
+        }
+        return response.json();
+      })
+    .catch((error) => console.error('Detailed Error:', error));
+}
+
 function calculateCounts() {
     const counts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 };
     scores.forEach(score => counts[score] !== undefined && counts[score]++);
@@ -461,7 +486,7 @@ function calculateStats() {
     const totalGames = scores.length;
     
     scores.forEach(score => {
-        if (score !== "0") {
+        if (score !== 0) {
             wins++;
             streakCount++;
             if (streakCount > maxStreak) maxStreak = streakCount;

@@ -4,7 +4,6 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='/stylesheets/landing.css')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
     title= title
   body
     .container
@@ -17,9 +16,15 @@ html(lang='en')
       .random-button 
         a(href="/random")
           button Random Word
-      .auth-buttons
-        a(href="/user/login")
-          button(type='button') Log In
-      
-        a(href="/user/signup")
-          button(type='button') Sign Up
+      if user
+          .user-container
+            p Logged in as 
+              span #{user.username}
+            form(action='/user/logout', method='POST')
+              button(type='submit') Logout
+      else
+          .auth-buttons
+              a(href="/user/login")
+                  button(type='button') Log In
+              a(href="/user/signup")
+                  button(type='button') Sign Up
