@@ -23,8 +23,16 @@ exports.getSignupPage = (req, res) => {
         password: hashedPassword,
       });
       await user.save();
-      console.log("User saved successfully. Redirecting...");
-      res.redirect('/'); // Do I need to pass user here?
+      
+      // Log the user in
+      req.login(user, (err) => {
+        if (err) {
+          return next(err); // or handle the error as you see fit
+        }
+        // Redirect the user to the landing page or wherever you see fit
+        return res.redirect('/');
+      });
+      
     } catch (err) {
       if (err.code === 11000) { // MongoDB duplicate key error code
         // Render the signup page with a relevant error message

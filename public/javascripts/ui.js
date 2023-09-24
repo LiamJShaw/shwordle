@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const helpButton = document.querySelector(".helpButton");
     helpButton.addEventListener("click", showHelpModal);
 
+    const settingsButton = document.querySelector(".settingsButton");
+    settingsButton.addEventListener("click", showSettingsModal);
+
     const customChallengeButton = document.querySelector(".customChallengeButton");
     customChallengeButton.addEventListener("click", () => console.log("Custom challenge pending"));
 
@@ -203,8 +206,7 @@ function isWordValid(word) {
     })
     .then(json => json.isValid)
     .catch((error) => {
-      console.error('Fetch error: ', error);
-      return false; // Return false if an error occurs
+      return false;
     });
 }
 
@@ -454,22 +456,24 @@ function applyJiggleAnimation(row) {
 
 // Stats
 function updateStatsOnServer() {
-    fetch('/user/update-score', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({ username: userName, score: guesses }),
-    })
-    
-    .then(response => {
-        if (!response.ok) {
-          return response.json().then(err => { throw err; });
-        }
-        return response.json();
-      })
-    .catch((error) => console.error('Detailed Error:', error));
+if (userName) {
+        fetch('/user/update-score', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({ username: userName, score: guesses }),
+        })
+        
+        .then(response => {
+            if (!response.ok) {
+              return response.json().then(err => { throw err; });
+            }
+            return response.json();
+          })
+        .catch((error) => console.error('Error:', error));
+}
 }
 
 function calculateCounts() {
@@ -581,6 +585,9 @@ function showHelpModal() {
 
 
 function showSettingsModal() {
+    const settingsModalContent = document.querySelector("#settingsModalContent");
+    settingsModalContent.style.display = 'block';
+
     showModal();
 }
 
@@ -601,6 +608,7 @@ function hideModal() {
 
     resultsModalContent.style.display = 'none';
     helpModalContent.style.display = 'none';
+    settingsModalContent.style.display = 'none';
 
     modal.style.display = 'none';
 }
@@ -619,18 +627,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+
+    // Sharing results
     const shareButton = document.getElementById('shareButton');
 
-    // Event listener for share button
     shareButton.addEventListener('click', function () {
         let resultString = shareResult();
-
-        console.log(resultString);
-            
-        // Copy to clipboard
-        navigator.clipboard.writeText(resultString);
-        // modalMessage.textContent = "Copied to clipboard"
+        
+        if (navigator.share) { // If Web Share API is available
+            navigator.share({
+                title: 'SHWORDLE',
+                text: resultString
+            }).catch((error) => console.error('Error sharing', error));
+        } else {
+            // If Web Share API is not available, copy to clipboard
+            navigator.clipboard.writeText(resultString).then(() => {
+                console.log('Text successfully copied to clipboard!');
+                // modalMessage.textContent = "Copied to clipboard"
+            }).catch(err => {
+                console.error('Could not copy text: ', err);
+            });
+        }
     });
+    
 });
 
 
