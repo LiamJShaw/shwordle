@@ -20,6 +20,7 @@ var userRouter = require('./routes/user');
 
 var app = express();
 
+// Flash for storing errors between requests
 const flash = require('connect-flash');
 app.use(flash());
 
@@ -35,7 +36,6 @@ const mongoDB = process.env.MongoDB_URI;
 main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(mongoDB);
-  console.log("MongoDB: Successfully connected");
 }
 
 // Session middleware
@@ -48,6 +48,7 @@ app.use(session({
   },
 }));
 
+// Passport Local Strategy for auth
 passport.use(
   new LocalStrategy(async (username, password, done) => {
     try {
@@ -92,8 +93,7 @@ app.use((req, res, next) => {
   next();
 });
 
-
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 

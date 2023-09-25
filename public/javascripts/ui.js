@@ -150,6 +150,15 @@ window.addEventListener('keyup', function (e) {
     }
 });
 
+function animateSquare(squareElement) {
+    squareElement.classList.add('pulse');
+  
+    setTimeout(() => {
+      squareElement.classList.remove('pulse');
+    }, 200); // 200ms equals the duration of the animation
+  }
+  
+
 function pressKey(key) {
 
     if (gameEnded && !customChallenge) return; // Stop the user from continuing to play after winning
@@ -161,22 +170,38 @@ function pressKey(key) {
 }
 
 function deleteChar() {
-    guess = guess.slice(0, -1);
-    updateDisplay();
+    if (guess.length > 0) {
+        guess = guess.slice(0, -1);
+        updateDisplay();
+    }
+}
+
+// Needed to show letter entry animation
+let previousDisplay = ["", "", "", "", ""];
+
+function resetPreviousDisplay() {
+    previousDisplay = ["", "", "", "", ""];
 }
 
 function updateDisplay() {
-
     let currentRow = rows[guesses].childNodes;
-
-    for (let i = 0; i < 5; i++) {
-        currentRow[i].textContent = "";
-    }
     
-    for (let i = 0; i < guess.length; i++) {
-        currentRow[i].textContent = guess[i];
+    for (let i = 0; i < 5; i++) {
+        if (!currentRow[i].textContent && guess[i]) {
+            currentRow[i].textContent = guess[i];
+            currentRow[i].classList.add('pulse');
+            
+            // remove the pulse class after the animation ends
+            setTimeout(() => {
+                currentRow[i].classList.remove('pulse');
+            }, 100);
+        } else if (!guess[i]) {
+            currentRow[i].textContent = "";
+        }
     }
 }
+
+
 
 
 // Game Board
@@ -353,6 +378,7 @@ async function submitGuess() {
     
     await colourGameboardSquares(result);
     colourKeyboardKeys(result);  
+    resetPreviousDisplay();
 
     guesses++;
 
