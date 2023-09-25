@@ -22,8 +22,10 @@ function newGame() {
 
 document.addEventListener('DOMContentLoaded', function() {
     
-    console.log("User:", userName);
-    console.log("Scores:", userScores)
+    if (userName) {
+        console.log("User:", userName);
+        console.log("Scores:", userScores)
+    }
 
     // console.log("Word:", backendWord);
 
@@ -162,15 +164,6 @@ function deleteChar() {
     guess = guess.slice(0, -1);
     updateDisplay();
 }
-
-function resetKeyboard() {
-    const keys = document.querySelectorAll(".key");
-
-    keys.forEach(key => {
-        key.style.backgroundColor = '#939598';
-    })
-}
-
 
 function updateDisplay() {
 
@@ -486,9 +479,7 @@ function calculateCounts() {
 }
 
 function calculateStats() {
-
-    console.log(scores);
-
+    
     let wins = 0;
     let currentStreak = 0;
     let maxStreak = 0;
@@ -638,6 +629,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if(event.target === modal) {
             hideModal();
         }
+    });
+
+    // Close modal on Esc button press
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            hideModal();
+        }
+    });
+
+    // Go back to Landing page on title click
+    const titleButton = document.getElementById('titleId');
+    titleButton.addEventListener('click', function() {
+        window.location.href = '/';
     });
 
     // Sharing results

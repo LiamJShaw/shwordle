@@ -11,8 +11,12 @@ router.get('/signup', userController.getSignupPage);
 
 router.post('/signup',
   [
-    body('username').notEmpty().withMessage('Username is required'),
-    body('password').isLength({ min: 5 }).withMessage('Password must be at least 5 characters long'),
+    body('username')
+      .notEmpty().withMessage('Username is required')
+      .isLength({ max: 20 }).withMessage('Username must be at most 20 characters long')
+      .matches(/^\S*$/).withMessage('Username cannot contain spaces'),
+    body('password')
+      .isLength({ min: 5 }).withMessage('Password must be at least 5 characters long'),
     body('confirmpassword').custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error('Password confirmation does not match password');
@@ -22,7 +26,6 @@ router.post('/signup',
   ],
   userController.createUser
 );
-
 
 // Log in
 router.get('/login', (req, res) => {

@@ -1,7 +1,11 @@
+* {
+  font-family: 'Montserrat', sans-serif;
+}
+
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
+    font-family: sans-serif;
     background-color: #252525;
     color: #ffffff;
     display: flex;
@@ -11,7 +15,7 @@ body {
     padding-top: 10vh
   }
   
-  .container {
+  main {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -33,35 +37,25 @@ body {
     color: #BDBDBD;
   }
   
-button {
+a {
     cursor: pointer;
-    background: #6aaa64;
     color: #ffffff;
     font-weight: bold;
-    
+    background: #4a7739;
     border: none;
     padding: 10px 20px;
     margin: 1rem;
     border-radius: 5px;
     font-size: 1em;
-    transition: background 0.3s ease, color 0.3s ease;
-  }
-  
-button:hover {
-    background: #385c35;
+}
+
+.play-button a { 
+  font-size: 32px;
+  padding: 20px 40px;
 }
   
-.play-button button {
-    font-size: 32px;
-    padding: 20px 40px;
-}
-  
-.auth-buttons {
-    
-}
-  
-.auth-buttons button {
-    background-color: gray;
+.auth-buttons a {
+    background-color: #595959;
     color: white;
 
     margin: 20px 1.5rem;
@@ -82,6 +76,14 @@ a {
 
 .user-container button {
   background-color: rgb(150, 0, 0);
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  margin: 1rem;
+  border-radius: 5px;
+  font-size: 1em;
 }
 
 .user-container span {

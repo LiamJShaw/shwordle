@@ -4,18 +4,17 @@ html(lang='en')
     meta(charset='UTF-8')
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='/stylesheets/landing.css')
+    link(href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap', rel='stylesheet')
     title= title
   body
-    .container
-      img(src="/images/wordle-icon.png")
+    main
+      img(src="/images/wordle-icon.png", alt="Shwordle logo")
       h1 SHWORDLE
       p#date= date
       .play-button
-        a(href="/play")
-          button Daily Word
+        a(href="/play") Daily Word
       .random-button 
-        a(href="/random")
-          button Random Word
+        a(href="/random") Random Word
       if user
           .user-container
             p Logged in as 
@@ -24,7 +23,5 @@ html(lang='en')
               button(type='submit') Logout
       else
           .auth-buttons
-              a(href="/user/login")
-                  button(type='button') Log In
-              a(href="/user/signup")
-                  button(type='button') Sign Up
+            a.button(href="/user/login") Log In
+            a.button(href="/user/signup") Sign Up
