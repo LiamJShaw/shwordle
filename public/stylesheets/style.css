@@ -370,6 +370,13 @@ p {
     margin-bottom: 1em;
 }
 
+.attemptLabel {
+    width: 20px; 
+    text-align: center;
+    display: inline-block;
+ }
+ 
+
 .word-example {
     margin-bottom: 2em;
 }

@@ -23,11 +23,11 @@ function newGame() {
 document.addEventListener('DOMContentLoaded', function() {
     
     if (userName) {
-        console.log("User:", userName);
+        console.log("Logged in User:", userName);
         console.log("Scores:", userScores)
     }
 
-    console.log("Word:", backendWord);
+    // console.log("Word:", backendWord);
 
     scores = userScores;
 
