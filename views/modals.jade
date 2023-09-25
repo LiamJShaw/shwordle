@@ -5,7 +5,7 @@
         .body
             #helpModalContent.modal-content
                 h2 How To Play
-                p Guess the Wordle in 6 tries.
+                p Guess the Shwordle in 6 tries.
                 p Each guess must be a valid 5-letter word.
                 p The color of the tiles will change to show how close your guess was to the word.
                 h3 Examples
@@ -92,7 +92,7 @@
                 .toggle-container
                     .text-container
                         h3 Hard Mode
-                        p.small-text Any revealed hints must be used in subsequent guesses
+                        small Any revealed hints must be used in subsequent guesses
                     label.switch
                         input#hardModeToggle(type='checkbox', name='hardMode')
                         span.slider.round
@@ -100,6 +100,6 @@
                     hr
                     br
                     p Logged in as 
-                        span #{currentUser.username}
+                        span#currentUser #{currentUser.username}
                     form#logoutForm(action='/user/logout', method='POST')
                         button(type='submit') Log out

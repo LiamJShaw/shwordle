@@ -1,4 +1,6 @@
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 var createError = require('http-errors');
 var express = require('express');
@@ -17,6 +19,10 @@ var indexRouter = require('./routes/index');
 var userRouter = require('./routes/user');
 
 var app = express();
+
+const flash = require('connect-flash');
+app.use(flash());
+
 
 // Import the mongoose module
 const mongoose = require("mongoose");

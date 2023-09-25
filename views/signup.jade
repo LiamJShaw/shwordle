@@ -17,19 +17,14 @@ html(lang='en')
       form(action='/user/signup', method='post')
 
         label(for='username') Username: 
+        small Must be unique, at most 20 characters long, and cannot contain spaces.
         input(type='text', name='username', id='username')
-        
-        br
-        
-        label(for='password') Password: 
-        input(type='password', name='password', id='password')
 
-        br
+        label(for='password') Password:
+        small Must be at least 8 characters long.
+        input(type='password', name='password', id='password')
 
         label(for='confirmpassword') Confirm Password: 
         input(type='password', name='confirmpassword', id='confirmpassword')
-
-        br
-        br
 
         button(type='submit') Sign Up

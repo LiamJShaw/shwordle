@@ -6,6 +6,9 @@ const { body, validationResult } = require('express-validator');
 const User = require('../models/user');
 const userController = require('../controllers/userController');
 
+// Root
+router.get('/', (req, res) => res.redirect('/'));
+
 // Sign up
 router.get('/signup', userController.getSignupPage);
 
@@ -16,7 +19,7 @@ router.post('/signup',
       .isLength({ max: 20 }).withMessage('Username must be at most 20 characters long')
       .matches(/^\S*$/).withMessage('Username cannot contain spaces'),
     body('password')
-      .isLength({ min: 5 }).withMessage('Password must be at least 5 characters long'),
+      .isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
     body('confirmpassword').custom((value, { req }) => {
       if (value !== req.body.password) {
         throw new Error('Password confirmation does not match password');

@@ -25,44 +25,43 @@ html(lang='en')
         div#gameBoard(role='grid', aria-label='Game board')
       
     //- Keyboard
-    .keyboard-container 
-        div.keyboard(role='navigation', aria-label='Virtual keyboard')
-            button.key(data-key='q', tabindex='0', role='button') Q
-            button.key(data-key='w', tabindex='0', role='button') W
-            button.key(data-key='e', tabindex='0', role='button') E
-            button.key(data-key='r', tabindex='0', role='button') R
-            button.key(data-key='t', tabindex='0', role='button') T
-            button.key(data-key='y', tabindex='0', role='button') Y
-            button.key(data-key='u', tabindex='0', role='button') U
-            button.key(data-key='i', tabindex='0', role='button') I
-            button.key(data-key='o', tabindex='0', role='button') O
-            button.key(data-key='p', tabindex='0', role='button') P
+    div.keyboard(role='navigation', aria-label='Virtual keyboard')
+        button.key(data-key='q', tabindex='0', role='button') Q
+        button.key(data-key='w', tabindex='0', role='button') W
+        button.key(data-key='e', tabindex='0', role='button') E
+        button.key(data-key='r', tabindex='0', role='button') R
+        button.key(data-key='t', tabindex='0', role='button') T
+        button.key(data-key='y', tabindex='0', role='button') Y
+        button.key(data-key='u', tabindex='0', role='button') U
+        button.key(data-key='i', tabindex='0', role='button') I
+        button.key(data-key='o', tabindex='0', role='button') O
+        button.key(data-key='p', tabindex='0', role='button') P
 
-            .spacer(aria-hidden='true', tabindex='-1')
+        .spacer(aria-hidden='true', tabindex='-1')
 
-            button.key(data-key='a', tabindex='0', role='button') A
-            button.key(data-key='s', tabindex='0', role='button') S
-            button.key(data-key='d', tabindex='0', role='button') D
-            button.key(data-key='f', tabindex='0', role='button') F
-            button.key(data-key='g', tabindex='0', role='button') G
-            button.key(data-key='h', tabindex='0', role='button') H
-            button.key(data-key='j', tabindex='0', role='button') J
-            button.key(data-key='k', tabindex='0', role='button') K
-            button.key(data-key='l', tabindex='0', role='button') L
+        button.key(data-key='a', tabindex='0', role='button') A
+        button.key(data-key='s', tabindex='0', role='button') S
+        button.key(data-key='d', tabindex='0', role='button') D
+        button.key(data-key='f', tabindex='0', role='button') F
+        button.key(data-key='g', tabindex='0', role='button') G
+        button.key(data-key='h', tabindex='0', role='button') H
+        button.key(data-key='j', tabindex='0', role='button') J
+        button.key(data-key='k', tabindex='0', role='button') K
+        button.key(data-key='l', tabindex='0', role='button') L
 
-            .spacer(aria-hidden='true', tabindex='-1')
+        .spacer(aria-hidden='true', tabindex='-1')
 
-            button.key.large(data-enter, tabindex='0', role='button', aria-label='Enter') Enter
-            button.key(data-key='z', tabindex='0', role='button') Z
-            button.key(data-key='x', tabindex='0', role='button') X
-            button.key(data-key='c', tabindex='0', role='button') C
-            button.key(data-key='v', tabindex='0', role='button') V
-            button.key(data-key='b', tabindex='0', role='button') B
-            button.key(data-key='n', tabindex='0', role='button') N
-            button.key(data-key='m', tabindex='0', role='button') M
+        button.key.large(data-enter, tabindex='0', role='button', aria-label='Enter') Enter
+        button.key(data-key='z', tabindex='0', role='button') Z
+        button.key(data-key='x', tabindex='0', role='button') X
+        button.key(data-key='c', tabindex='0', role='button') C
+        button.key(data-key='v', tabindex='0', role='button') V
+        button.key(data-key='b', tabindex='0', role='button') B
+        button.key(data-key='n', tabindex='0', role='button') N
+        button.key(data-key='m', tabindex='0', role='button') M
 
-            button.key.large(data-delete, tabindex='0', role='button', aria-label='Delete')
-                svg(role='img', aria-label='Delete', xmlns='http://www.w3.org/2000/svg', height='24', viewBox='0 0 24 24', width='24')
-                    path(d='M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z')
+        button.key.large(data-delete, tabindex='0', role='button', aria-label='Delete')
+            svg(role='img', aria-label='Delete', xmlns='http://www.w3.org/2000/svg', height='24', viewBox='0 0 24 24', width='24')
+                path(d='M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z')
 
 include modals

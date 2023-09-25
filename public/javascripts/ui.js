@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Scores:", userScores)
     }
 
-    // console.log("Word:", backendWord);
+    console.log("Word:", backendWord);
 
     scores = userScores;
 
@@ -305,20 +305,20 @@ function colourKeyboardKeys(result) {
 }
 
 function colourKey(key, colour) {
-    if (colour === "green") {
-      key.classList.add('key-green');
-      return;
+    // If the key is already green, don’t change it
+    if (key.classList.contains('key-green')) return;
+    
+    // If the key is already yellow, don’t change it to grey
+    if (key.classList.contains('key-yellow') && colour === "grey") return;
+    
+    // Remove existing color classes
+    key.classList.remove('key-grey', 'key-yellow', 'key-green');
+    
+    // Add the new color class
+    if (colour === "green" || colour === "yellow" || colour === "grey") {
+      key.classList.add(`key-${colour}`);
     }
-  
-    if (colour === "yellow" && !key.classList.contains('key-green')) {
-      key.classList.add('key-yellow');
-      return;
-    }
-  
-    if (colour === "grey" && !key.classList.contains('key-green') && !key.classList.contains('key-yellow')) {
-      key.classList.add('key-grey');
-    }
-  }
+}
   
 
 async function submitGuess() {
@@ -479,7 +479,7 @@ function calculateCounts() {
 }
 
 function calculateStats() {
-    
+
     let wins = 0;
     let currentStreak = 0;
     let maxStreak = 0;
@@ -750,7 +750,7 @@ async function generateLink() {
         userMessage.textContent = "Share link copied to clipboard!";
 
         const countdownInterval = setInterval(() => {
-            userMessage.innerHTML = `Share link copied to clipboard!<br><br>Redirecting to home in ${countdownValue} seconds...`;
+            userMessage.innerHTML = `Share link copied to clipboard! Redirecting to home in ${countdownValue} seconds...`;
             countdownValue--;
         
             if (countdownValue < 0) {
@@ -796,11 +796,16 @@ function customChallengeMode() {
 
     gameBoard.appendChild(customChallengeTitle);
 
-    const customChallengeText = document.createElement("p");
-    customChallengeText.classList.add('customChallengeText');
-    customChallengeText.innerHTML = `Type a valid word and press Enter<br><br>A link will be copied to your clipboard which you can share for a custom challenge!`
+    const customChallengeText1 = document.createElement("p");
+    customChallengeText1.classList.add('customChallengeText');
+    customChallengeText1.innerHTML = `Type a valid word and press Enter`
 
-    gameBoard.appendChild(customChallengeText);
+    const customChallengeText2 = document.createElement("p");
+    customChallengeText2.classList.add('customChallengeText');
+    customChallengeText2.innerHTML = `A link will be copied to your clipboard so you can share your custom challenge!`
+
+    gameBoard.appendChild(customChallengeText1);
+    gameBoard.appendChild(customChallengeText2);
 
     generateRows(1);
     generateColumns(1, 5);

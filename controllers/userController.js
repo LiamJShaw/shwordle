@@ -7,26 +7,24 @@ exports.getLoginPage = (req, res) => {
 };
 
 exports.getSignupPage = (req, res) => {
-    res.render('signup', { errors: [] });
-  };
+  res.render('signup', { errors: req.flash('errors') });
+};
   
 exports.createUser = async (req, res, next) => {
   try {
-    // 1. Perform validation checks
     const errors = validationResult(req);
 
-    // 2. Check if a user with the given username already exists
     const existingUser = await User.findOne({ username: req.body.username.toLowerCase() });
     if (existingUser) {
-      errors.errors.unshift({ msg: 'Username is already taken' });
+      errors.errors.push({ msg: 'Username is already taken' });
     }
 
-    // 3. If there are any errors, render them
     if (!errors.isEmpty()) {
-      return res.status(400).render('signup', { errors: errors.array() });
+      req.flash('errors', errors.array()); // Storing errors in flash to survive the redirect
+      return res.redirect('/user/signup'); // Redirect back to the signup page
     }
 
-    // 4. If no errors, create the user
+    // No errors, proceed with user creation...
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({
       username: req.body.username.toLowerCase(),
@@ -34,7 +32,6 @@ exports.createUser = async (req, res, next) => {
     });
     await user.save();
 
-    // Log the user in
     req.login(user, (err) => {
       if (err) {
         return next(err);
