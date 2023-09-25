@@ -166,6 +166,18 @@ h1 {
     background-color: rgb(54, 54, 54);
 }
 
+.key-green {
+    background-color: #6aaa64;
+}
+  
+.key-yellow {
+    background-color: #c9b458;
+}
+  
+.key-grey {
+    background-color: #363636;
+}
+
 button svg {
     pointer-events: none;
 }
@@ -271,6 +283,9 @@ button svg {
     border: none;
     cursor: pointer;
 }
+#shareMessage {
+    min-height: 1.5em;
+}
 
 hr {
     border: 1px solid #989393;
@@ -286,11 +301,12 @@ hr {
     font-weight: 900;
     cursor: pointer;
     border: none;
+    padding-top: 16px;
 }
 
 /* Modal */
 #modal {
-    display: none; /* Changed from none to flex to center the child content */
+    display: none;
     align-items: center;
     justify-content: center;
     align-items: center;
@@ -309,10 +325,12 @@ hr {
     max-width: 500px;
     background: #121212;
     color: #fff;
-    padding: 16px;
+    padding: 0 16px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
+
+    top: -1rem;
 }
 
 /* Modal Header */
@@ -323,7 +341,8 @@ hr {
 
 /* Modal Body */
 #modal .body {
-    padding: 2rem;
+    padding: 1rem;
+    padding-top: 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -344,10 +363,6 @@ hr {
 }
 
 /* Help Modal */
-h2, h3 {
-    /* margin-bottom: 1em; */
-}
-
 p {
     margin-bottom: 1em;
 }
@@ -396,17 +411,15 @@ p {
     border-style: none;
 }
 
-/* Styles for the settings modal content */
 #settingsModalContent {
     padding: 16px;
 }
 
-/* Styles for the user information */
 #settingsModalContent h4 {
     margin-bottom: 16px;
 }
 
-/* Styles for the logout button */
+/* logout button */
 #logoutForm button {
     cursor: pointer;
     background-color: #f44336; /* Red */
@@ -456,8 +469,9 @@ h3 {
     height: 34px;
 }
 
-/* Hide default HTML checkbox */
-.switch input {display:none;}
+.switch input {
+    display:none;
+}
 
 .slider {
     position: absolute;

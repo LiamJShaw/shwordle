@@ -71,7 +71,6 @@ document.addEventListener('keydown', (event) => {
 
         if (customChallenge) {
             generateLink();
-            console.log("guess after generateLink", guess);
         } else {
             submitGuess();
         }
@@ -151,7 +150,7 @@ window.addEventListener('keyup', function (e) {
 
 function pressKey(key) {
 
-    if (gameEnded) return; // Stop the user from continuing to play after winning
+    if (gameEnded && !customChallenge) return; // Stop the user from continuing to play after winning
 
     if (guess.length < 5) {
         guess += key;
@@ -312,6 +311,23 @@ function colourKeyboardKeys(result) {
     }
 }
 
+function colourKey(key, colour) {
+    if (colour === "green") {
+      key.classList.add('key-green');
+      return;
+    }
+  
+    if (colour === "yellow" && !key.classList.contains('key-green')) {
+      key.classList.add('key-yellow');
+      return;
+    }
+  
+    if (colour === "grey" && !key.classList.contains('key-green') && !key.classList.contains('key-yellow')) {
+      key.classList.add('key-grey');
+    }
+  }
+  
+
 async function submitGuess() {
 
     if (gameEnded) return;
@@ -374,10 +390,12 @@ async function submitGuess() {
         }
 
         showResultTooltip(resultText);
+        scores.push(guesses);
         gameEnd();
 
     } else if (guesses === 6) {
         showResultTooltip(generatedWord.toUpperCase());
+        scores.push(0); // 0 represents a loss
         gameEnd();
     } else {
         guess = "";
@@ -388,10 +406,7 @@ function gameEnd() {
     gameEnded = true;
     guess = "";
 
-    scores.push(guesses);
-
     updateStatsOnServer();
-
 }
 
 // User interface
@@ -409,41 +424,6 @@ function applyJumpAnimation(row) {
         }, delay);
         delay += 100; // delay for next square
     });
-}
-
-function colourKey(key, colour) {
-
-    let green = "#6aaa64"; 
-    let yellow = "#c9b458"; 
-    let grey = "#363636" 
-
-    // Green
-    if (colour === "green") {
-        key.style.backgroundColor = green;
-        return;
-    }
-
-    // Yellow
-    if (colour === "yellow") {
-
-        if (key.style.backgroundColor == green) {
-            return;
-        }
-
-        key.style.backgroundColor = yellow;
-        return;
-    }
-
-    // Grey
-    if (colour === "grey") {
-
-        if (key.style.backgroundColor == green || key.style.backgroundColor == yellow) {
-            return;
-        }
-
-        key.style.backgroundColor = grey;
-        return;
-    }
 }
 
 // Tooltips
@@ -506,12 +486,15 @@ function calculateCounts() {
 }
 
 function calculateStats() {
+
+    console.log(scores);
+
     let wins = 0;
     let currentStreak = 0;
     let maxStreak = 0;
     let streakCount = 0;
     const totalGames = scores.length;
-    
+
     scores.forEach(score => {
         if (score !== 0) {
             wins++;
@@ -523,10 +506,17 @@ function calculateStats() {
     });
 
     const winPercentage = totalGames > 0 ? ((wins / totalGames) * 100).toFixed(0) : 0;
-    currentStreak = streakCount;
+
+    // Check if the last game is a loss and adjust currentStreak accordingly
+    if (scores.length > 0 && scores[scores.length - 1] === 0) {
+        currentStreak = 0;
+    } else {
+        currentStreak = streakCount;
+    }
 
     return { winPercentage, currentStreak, maxStreak, totalGames };
 }
+
 
 function renderStats(counts, totalGames) {
     let maxAttempt;
@@ -650,29 +640,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-
     // Sharing results
     const shareButton = document.getElementById('shareButton');
+    const shareMessage = document.getElementById('shareMessage');
 
     shareButton.addEventListener('click', function () {
-        let resultString = shareResult();
+        let resultsShare = shareResult();
         
-        if (navigator.share) { // If Web Share API is available
+        if (navigator.share) {
             navigator.share({
                 title: 'SHWORDLE',
-                text: resultString
+                text: resultsShare.shareString,
+                url: resultsShare.shareLink
             }).catch((error) => console.error('Error sharing', error));
-        } else {
-            // If Web Share API is not available, copy to clipboard
-            navigator.clipboard.writeText(resultString).then(() => {
-                console.log('Text successfully copied to clipboard!');
-                // modalMessage.textContent = "Copied to clipboard"
+        } else { // If Web Share API is not available, copy to clipboard
+            navigator.clipboard.writeText(`${resultsShare.shareString}${resultsShare.shareLink}`).then(() => {
+                shareMessage.textContent = "Copied to clipboard"
             }).catch(err => {
                 console.error('Could not copy text: ', err);
             });
         }
     });
-    
 });
 
 
@@ -708,9 +696,8 @@ function shareResult() {
     shareString += "\n\n";
     shareString += gameBoardExport;
     shareString += "\n";
-    shareString += shareLink;
 
-    return shareString;
+    return { shareString, shareLink };
 }
 
 
@@ -752,8 +739,6 @@ async function generateLink() {
         let shareLink = window.location.host;
         shareLink += encrypted;
 
-        console.log("Share link:", shareLink);
-
         // Copy share link to keyboard
         navigator.clipboard.writeText(shareLink);
 
@@ -783,11 +768,11 @@ async function generateLink() {
 
 function resetKeyboard() {
     const keys = document.querySelectorAll(".key");
-
     keys.forEach(key => {
-        key.style.backgroundColor = 'grey';
-    })
+        key.classList.remove('key-green', 'key-yellow', 'key-grey');
+    });
 }
+
 
 function customChallengeMode() {
 

@@ -8,7 +8,7 @@ body {
     align-items: flex-start;
     justify-content: center;
 
-    padding-top: 20vh
+    padding-top: 10vh
   }
   
   .container {
@@ -41,7 +41,7 @@ button {
     
     border: none;
     padding: 10px 20px;
-    margin: 5px;
+    margin: 1rem;
     border-radius: 5px;
     font-size: 1em;
     transition: background 0.3s ease, color 0.3s ease;
@@ -57,12 +57,14 @@ button:hover {
 }
   
 .auth-buttons {
-    margin-top: 20px;
+    
 }
   
 .auth-buttons button {
     background-color: gray;
     color: white;
+
+    margin: 20px 1.5rem;
 }
   
 a {
