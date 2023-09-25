@@ -403,7 +403,7 @@ async function submitGuess() {
             case 5: 
                 resultText= "Great!";
                 break;
-            case 5: 
+            case 6: 
                 resultText = "Phew!";
                 break;
         }

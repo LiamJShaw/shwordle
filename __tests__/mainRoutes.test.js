@@ -42,7 +42,7 @@ describe('Testing routes', () => {
         expect(response.statusCode).toBe(500); // Expecting internal server error
         // reset the view engine after the test
         app.set('view engine', 'jade');
-    });    
+    });
     
     test('GET /nonexistentroute should return status 404', async () => {
         const response = await supertest(app).get('/nonexistentroute');
